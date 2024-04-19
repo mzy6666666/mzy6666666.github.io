@@ -1,3 +1,4 @@
+hexo cl
 hexo g
 hexo d
 git add .
