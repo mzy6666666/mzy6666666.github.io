@@ -9,3 +9,4 @@ _multiconfig.yml
 
 /.deploy_git
 /node_modules
+themes/
