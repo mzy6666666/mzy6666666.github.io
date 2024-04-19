@@ -199,69 +199,29 @@
             <div class="main-content border-box">
                 
 
-                    $page-container-gap = 2rem
+                    
+<div class="fade-in-down-animation">
+    <div class="page-template-container border-box keep-container ">
+        <!-- page top -->
+        
 
-.page-template-container {
+        <!-- page bottom -->
+        <div class="page-template-bottom border-box">
+            <!-- use page template -->
+            
 
-  &.keep-container {
-    keep-container(1, 0, $page-container-gap)
+            <!-- page content -->
+            <div class="page-content border-box keep-markdown-body ">
+                
+                    <h1>LINKS</h1>
+                
+            </div>
 
-    .page-template-bottom {
-      padding $page-container-gap
-    }
-  }
-
-  &.has-page-cover {
-    .page-template-bottom {
-      padding-top $page-container-gap
-      padding-bottom $page-container-gap
-    }
-  }
-
-
-  .page-template-top {
-    width 100%
-    overflow hidden
-    background-color var(--background-color-2)
-    border-top-left-radius var(--box-border-radius)
-    border-top-right-radius var(--box-border-radius)
-
-    .page-cover {
-      position absolute
-      top 0
-      left 0
-      box-sizing border-box
-      width 100%
-      height 100%
-      object-fit cover
-    }
-  }
-
-
-  .page-template-bottom {
-    width 100%
-
-    .page-content {
-      color var(--text-color-3)
-
-      &.has-data {
-        margin-top $page-container-gap
-      }
-
-      h1
-      h2
-      h3
-      h4
-      h5
-      h6 {
-
-        &:first-child {
-          margin-top 0
-        }
-      }
-    }
-  }
-}
+            <!-- comment plugin -->
+            
+        </div>
+    </div>
+</div>
 
 
                 
@@ -317,43 +277,131 @@
 
     <!-- side tools -->
     <div class="side-tools">
-        <div class="side-tools-container border-box ">
-    <ul class="side-tools-list side-tools-show-handle border-box">
-        <li class="tools-item tool-font-adjust-plus flex-center">
-            <i class="fas fa-search-plus"></i>
-        </li>
+        $tools-item-width = 2.2rem
+$tools-item-font-size = 1.1rem
+$tools-item-border-radius = 0.2rem
 
-        <li class="tools-item tool-font-adjust-minus flex-center">
-            <i class="fas fa-search-minus"></i>
-        </li>
+.side-tools-show-handle {
+  transform translateX(100%)
+  opacity 0
+  transition-t("transform, opacity", "0, 0", "0.26, 0.26", "linear, linear")
 
-        <li class="tools-item tool-toggle-theme-mode flex-center">
-            <i class="fas fa-moon"></i>
-        </li>
+  &.show {
+    transform translateX(0)
+    opacity 1
+  }
+}
 
-        <!-- rss -->
-        
+.side-tools-container {
+  .tools-item {
+    width $tools-item-width
+    height $tools-item-width
+    margin-bottom 0.25rem
+    color var(--text-color-3)
+    font-size $tools-item-font-size
+    background var(--background-color-1)
+    border-right none
+    border-radius $tools-item-border-radius
+    box-shadow 0.1rem 0.1rem 0.2rem var(--shadow-color)
+    cursor pointer
 
-        <li class="tools-item tool-scroll-to-bottom flex-center">
-            <i class="fas fa-arrow-down"></i>
-        </li>
-    </ul>
+    i {
+      color var(--text-color-3)
+    }
 
-    <ul class="exposed-tools-list border-box">
-        
+    &:hover {
+      color var(--background-color-1)
+      background var(--primary-color)
+      box-shadow 0.2rem 0.2rem 0.4rem var(--shadow-color)
 
-        
+      i {
+        color var(--background-color-1)
+      }
+    }
 
-        <li class="tools-item tool-toggle-show flex-center">
-            <i class="fas fa-cog fa-spin"></i>
-        </li>
 
-        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
-            <i class="arrow fas fa-arrow-up"></i>
-            <span class="percent"></span>
-        </li>
-    </ul>
-</div>
+    +keep-tablet() {
+      width $tools-item-width * 0.9
+      height $tools-item-width * 0.9
+      font-size $tools-item-font-size * 0.9
+
+      &.toggle-show-toc-tablet
+      &.go-to-comments-tablet {
+        display flex !important
+      }
+    }
+
+    &.rss {
+
+      a {
+        width 100%
+        height 100%
+        border-radius $tools-item-border-radius
+
+        &:hover {
+          color var(--background-color-1)
+          background var(--primary-color)
+          box-shadow 0.2rem 0.2rem 0.4rem var(--shadow-color)
+        }
+      }
+    }
+
+    &.toggle-show-toc-tablet
+    &.go-to-comments-tablet {
+      display none
+    }
+  }
+
+
+  .exposed-tools-list {
+
+    .tool-scroll-to-top {
+      display none
+
+      &.show {
+        display flex
+      }
+
+
+      &.show-arrow {
+        .percent {
+          display none
+        }
+
+        .arrow {
+          display flex
+        }
+      }
+
+
+      &.show-percent {
+        .percent {
+          display flex
+        }
+
+        .arrow {
+          display none
+        }
+      }
+
+
+      &:hover {
+        .percent {
+          display none
+        }
+
+        .arrow {
+          display flex
+        }
+      }
+
+
+      .percent {
+        font-size 1rem
+      }
+    }
+  }
+}
 
     </div>
 
