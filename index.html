@@ -53,157 +53,201 @@
 <main class="page-container border-box">
     <!-- home first screen  -->
     
-        if (hexo-config('first_screen')) {
-  $temp-fs-bg-img-light = hexo-config('first_screen.background_img')
-  $temp-fs-bg-img-dark = hexo-config('first_screen.background_img_dark')
-}
-else {
-  $temp-fs-bg-img-light = ''
-  $temp-fs-bg-img-dark = ''
-}
+        
+<div class="first-screen-container border-box flex-center fade-in-down-animation">
+    <div class="first-screen-content border-box">
+        <div class="top-placeholder border-box"></div>
 
-$fs-bg-img-light = $temp-fs-bg-img-light ? $temp-fs-bg-img-light : '/images/bg.svg'
-$fs-bg-img-dark = $temp-fs-bg-img-dark ? $temp-fs-bg-img-dark : $fs-bg-img-light
+        <div class="middle-placeholder border-box">
+            
+                <div class="description border-box">
+                    
+                        <div class="desc-item border-box"><span class="desc hitokoto"></span><span class="cursor">｜</span></div>
+                    
+                </div>
+            
 
-$root = hexo-config('root')
+            
+                <script async 
+                        src="https://v1.hitokoto.cn/?encode=js"
+                >
+                </script>
+            
+        </div>
 
-.first-screen-container {
-  width 100%
-  height 100vh
-  overflow hidden
-  background-image url($root + $fs-bg-img-light)
-  background-position-x center
-  background-position-y center
-  background-size cover
-  background-repeat-x no-repeat
-  background-repeat-y no-repeat
+        <div class="bottom-placeholder border-box">
+            
+                <div class="sc-icon-list border-box">
+                    <!-- fontawesome icons -->
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="GitHub"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="https://github.com/mzy0727">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="WeChat"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="https://fontawesome.com/icons/weixin?f=brands&s=solid">
+                                            <i class="fab fa-weixin"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="QQ"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="https://fontawesome.com/icons/qq?f=brands&s=solid">
+                                            <i class="fab fa-qq"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="Weibo"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="Weibo">
+                                            <i class="fab fa-weibo"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="Zhihu"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="zhihu">
+                                            <i class="fab fa-zhihu"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="Twitter"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="twitter">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="X"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="X">
+                                            <i class="fab fa-x-twitter"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="Facebook"
+                                 
+                                 
+                            >
+                                
+                                    
+                                    
+                                        <a target="_blank" href="facebook">
+                                            <i class="fab fa-facebook"></i>
+                                        </a>
+                                    
+                                
+                            </div>
+                        
+                    
+                        
+                            
+                            <div class="tooltip sc-icon-item "
+                                 data-tooltip-content="Email"
+                                 
+                                 
+                            >
+                                
+                                    <a href="mailto:1795498057@qq.com">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                
+                            </div>
+                        
+                    
 
-
-  .dark-mode & {
-    background-image url($root + $fs-bg-img-dark)
-  }
-
-  .first-screen-content {
-    display flex
-    flex-direction column
-    align-items center
-    justify-content space-between
-    width 80%
-    height 90%
-    padding-top calc(var(--header-height) * 0.5)
-
-    +keep-tablet() {
-      padding-top calc(var(--header-height) * 0.5 * 0.9)
-    }
-
-    +keep-mobile() {
-      padding-top calc(var(--header-height) * 0.5 * 0.8)
-    }
-
-    .description {
-      display var(--first-screen-display)
-      color var(--first-screen-font-color-light)
-      font-weight bold
-      font-size var(--first-screen-font-size)
-      font-family var(--first-screen-font-family)
-      line-height 1.8
-      text-align center
-      transform translateY(var(--first-screen-font-offset))
-      opacity 0
-
-      .dark-mode & {
-        color var(--first-screen-font-color-dark)
-
-        .desc-item {
-          .desc
-          .cursor {
-            color var(--first-screen-font-color-dark)
-          }
-        }
-      }
-
-
-      .desc-item {
-        .desc {
-          color var(--first-screen-font-color-light)
-        }
-
-        .cursor {
-          color var(--first-screen-font-color-light)
-          animation blink-caret 0.8s step-end infinite
-        }
-      }
-
-
-      +keep-tablet() {
-        font-size calc(var(--first-screen-font-size) * 0.9)
-      }
-    }
-
-
-    .bottom-placeholder {
-      width 100%
-
-      .sc-icon-list {
-        display flex
-        justify-content center
-
-        .sc-icon-item {
-          display flex
-          align-items center
-          margin 0 1rem
-          cursor pointer
-
-          i {
-            color var(--first-screen-icon-color-light)
-            font-size var(--first-screen-icon-size)
-          }
-
-
-          svg {
-            width var(--first-screen-icon-size)
-            height var(--first-screen-icon-size)
-
-            path {
-              fill var(--first-screen-icon-color-light)
-            }
-          }
-
-
-          .dark-mode & {
-            i {
-              color var(--first-screen-icon-color-dark)
-            }
-
-            svg {
-              path {
-                fill var(--first-screen-icon-color-dark)
-              }
-            }
-          }
-
-
-          +keep-tablet() {
-            i {
-              font-size calc(var(--first-screen-icon-size) * 0.9)
-            }
-
-            svg {
-              width calc(var(--first-screen-icon-size) * 0.9)
-              height calc(var(--first-screen-icon-size) * 0.9)
-            }
-          }
-
-
-          a {
-            display flex !important
-            align-items center !important
-          }
-        }
-      }
-    }
-  }
-}
+                    <!-- custom svg icons -->
+                    
+                    
+                </div>
+            
+        </div>
+    </div>
+</div>
 
     
 
