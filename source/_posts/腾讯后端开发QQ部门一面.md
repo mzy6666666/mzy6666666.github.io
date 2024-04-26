@@ -138,7 +138,148 @@ int KMP(string &S ,string &T){
 
 ## 快排
 
+```c++
+/*
+参数说明：a --待排序的数组
+		l --数组的左边界
+		r --数组的右边界
+*/
+void quick_sort(vector<int>& a,int l, int r){
+    if(l < r){
+        int i,j,k;
+        i = l;
+        j = r;
+        k = a[i];
+        while(i < j){
+            while(i < j && k > a[j]){
+                j--;	// 从右向左找第一个大于k的数
+            }
+            if(i < j){
+                a[i++] = a[j];
+            }
+            while(i < j && k < a[i]){
+                i++;	// 从左向右找第一个小于k的数
+            }
+            if(i < j){
+                a[j--] = a[i];
+            }
+        }
+        a[i] = k;
+        quick_sort(a,l,i-1);	//递归调用
+        quick_sort(a,i+1,r);	//递归调用
+    }
+}
+```
+
 ## LRU
 
+```c++
+struct Node{
+    int key,value;
+    Node* prev;
+    Node* next;
+    Node(int k = 0, int v = 0) :key(k),value(v) {}
+};
+class LRUCache {
+private:
+    int capacity;
+    Node *dummy;
+    unordered_map<int,Node*> key_to_node;
+    void remove(Node *x){
+        x->prev->next = x->next;
+        x->next->prev = x->prev;
+    }
+    void push_front(Node *x){
+        x->prev = dummy;
+        x->next = dummy->next;
+        x->prev->next= x;
+        x->next->prev = x;
+    }
+    Node *get_node(int key){
+        auto it = key_to_node.find(key);
+        if(it == key_to_node.end()){
+            return nullptr;
+        }
+        auto node = it->second;
+        remove(node);
+        push_front(node);
+        return node;
+    }
+public:
+    LRUCache(int capacity)
+     : capacity(capacity),
+     dummy(new Node()) 
+    {
+        dummy->prev = dummy;
+        dummy->next = dummy;
+    }
+    
+    int get(int key) {
+        auto node = get_node(key);
+        return node ? node->value:-1;
+    }
+    
+    void put(int key, int value) {
+        auto node = get_node(key);
+        if(node){
+            node->value = value;
+            return ;
+        }
+        key_to_node[key] = node = new Node(key,value);
+        push_front(node);
+        if(key_to_node.size() > capacity){
+            auto back_node = dummy->prev;
+            key_to_node.erase(back_node->key);
+            remove(back_node);
+            delete back_node;
+        }
+    }
+};
+
+```
+
 ## top K
+
+```c++
+vector<int> topKFrequent(vector<int>& nums,int k){
+    struct cmp{
+        bool operator()(const pair<int,int>& p1, const pair<int,int>& p2){
+            return p1.second > p2.second;
+        }
+	}
+	// 统计频率
+    unordered_map<int,int> mp;
+    for(auto i:nums){
+        mp[i]++;
+    }
+    // 定义堆
+    priority_queue<pair<int,int>,vector<pair<int,int>>,cmp> pq;
+    for(auto i:mp){
+        pq.push(i);
+        if(pq.size() > k){
+            pq.pop();
+        }
+    }
+    vector<int> res;
+    while(!pq.empty()){
+        res.push_back(pq.top().first);
+        pq.pop();
+    }
+    return res;
+}
+
+
+```
+
+```c++
+static bool cmp(pair<int, int>& m, pair<int, int>& n)  {
+       return m.second > n.second;
+}
+priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(&cmp)> q(cmp);
+/*
+这里使用了decltype关键词（since c++11）并传入cmp函数的地址，所以第三个模板参数的类型实际上是一个静态函数指针，于是q实例化了一个该模板类的类型出来，但这也只是声明出了一个函数指针而已。
+
+根据priority_queue的构造函数explicit priority_queue (const Compare& comp = Compare(), const Container& ctnr = Container())，通过q(cmp)将cmp这个函数指针赋值给之前在类中声明出的函数指针，从而完成优先队列q的构造。
+*/
+```
 
