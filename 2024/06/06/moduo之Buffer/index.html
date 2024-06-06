@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            moduo之Buffer |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        moduo之Buffer
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">炼气</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-06 16:53:22</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jun 06 2024 16:54:05 GMT+0800">2024-06-06 16:54:05</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/moduo/">moduo</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.2k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h1 id="Muduo中的Buffer"><a href="#Muduo中的Buffer" class="headerlink" title="Muduo中的Buffer"></a>Muduo中的Buffer</h1><p><code>Buffer</code>类其实是封装了一个用户缓冲区，以及向这个缓冲区写数据读数据等一系列控制方法。</p>
+<h2 id="为什么需要有应用层缓冲区？"><a href="#为什么需要有应用层缓冲区？" class="headerlink" title="为什么需要有应用层缓冲区？"></a><strong>为什么需要有应用层缓冲区？</strong></h2><p>在非阻塞网络编程中，非阻塞IO的核心思想是<strong>避免阻塞在<code>read()/write()</code>或其他IO系统调用上</strong>，可以最大限度复用<code>thread-of-control</code>，让一个线程能服务于多个<code>socket</code>连接。而IO线程只能阻塞在I&#x2F;O多路复用函数上，如<code>select()/poll()/epoll_wait()</code>，这样应用层的缓冲区就是必须的，每个<code>TCP socket</code>都要有足够安全的<code>input buffer</code>和<code>output buffer</code>。</p>
+<h2 id="Buffer的设计"><a href="#Buffer的设计" class="headerlink" title="Buffer的设计"></a>Buffer的设计</h2><p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240605143814050.png"  alt="image-20240605143814050"></p>
+<p>它使用<code>vector</code>来作为底层容器，可以进行动态的扩容操作。其次，前置的预留字节空间可用于填充数据序列化后的消息长度。该类的构造函数及其成员变量如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 网络库底层的缓冲区类型定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Buffer</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">size_t</span> kCheapPrepend = <span class="number">8</span>;</span><br><span class="line">    <span class="type">static</span> <span class="type">const</span> <span class="type">size_t</span> kInitialSize = <span class="number">1024</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Buffer</span><span class="params">(<span class="type">size_t</span> initialSize = kInitialSize)</span></span></span><br><span class="line"><span class="function">        : buffer_(kCheapPrepend + initialSize),</span></span><br><span class="line"><span class="function">          readerIndex_(kCheapPrepend),</span></span><br><span class="line"><span class="function">          writerIndex_(kCheapPrepend) </span></span><br><span class="line"><span class="function">    &#123;</span>&#125;<span class="keyword">private</span>:</span><br><span class="line"> 	std::vector&lt;<span class="type">char</span>&gt; buffer_;</span><br><span class="line">    <span class="type">size_t</span> readerIndex_;</span><br><span class="line">    <span class="type">size_t</span> writerIndex_;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Buffer</code>类对于预留空间默认为 8 字节，而其默认大小为 8 + 1024，即 1032 字节。</p>
+<p>如下三个函数分别返回预留空间大小、可读空间大小和可写空间大小，而 <code>peek()</code> 则返回读指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">size_t</span> <span class="title">readableBytes</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> writerIndex_ - readerIndex_; &#125;</span><br><span class="line"><span class="function"><span class="type">size_t</span> <span class="title">writableBytes</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> buffer_.<span class="built_in">size</span>() - writerIndex_; &#125;</span><br><span class="line"><span class="function"><span class="type">size_t</span> <span class="title">prependableBytes</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> readerIndex_; &#125;</span><br><span class="line"><span class="comment">// 返回缓冲区中可读数据的起始地址</span></span><br><span class="line"><span class="function"><span class="type">const</span> <span class="type">char</span>* <span class="title">peek</span><span class="params">()</span> <span class="type">const</span> </span>&#123; <span class="keyword">return</span> <span class="built_in">begin</span>() + readerIndex_; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下方法定义了如何从缓冲区中读取数据并更新缓冲区的状态。具体来说，它包括两个函数：<code>retrieve(size_t len)</code> 和 <code>retrieveall()</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">retrieve</span><span class="params">(<span class="type">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(len &lt; <span class="built_in">readableBytes</span>()) &#123;</span><br><span class="line">        readerIndex_ += len;  <span class="comment">// 应用只读取了可读缓冲区数据的一部分就是len，还剩下</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">retrieveall</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">retrieveall</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    readerIndex_ = kCheapPrepend;</span><br><span class="line">    writerIndex_ = kCheapPrepend;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>retrieve</code>这个函数的作用是从缓冲区中读取指定长度 <code>len</code> 的数据，并根据读取的长度更新 <code>readerIndex_</code> 和 <code>writerIndex_</code>。<code>retrieveall</code>这个函数的作用是重置缓冲区的状态，使得缓冲区变为空。将读取指针和写入指针都重置到缓冲区的起始位置 <code>kCheapPrepend</code>。这样，缓冲区变为空，可以重新开始接收和处理新的数据。</p>
+<p>具体过程如下图：</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240605144601428.png"  alt="image-20240605144601428"></p>
+<p>如下函数：<code>retrieveAllAsString()</code> 函数用于将缓冲区中的所有可读数据转换为一个字符串并返回。<code>retrieveAsString(size_t len)</code> 函数用于将缓冲区中指定长度的数据转换为一个字符串并返回，同时更新缓冲区的读取指针。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 把onMessage函数上报的Buffer数据，转成string类型的数据返回</span></span><br><span class="line"><span class="function">std::string <span class="title">retrieveAllAsString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">retrieveAsString</span>(<span class="built_in">readableBytes</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">std::string <span class="title">retrieveAsString</span><span class="params">(<span class="type">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="function">std::string <span class="title">result</span><span class="params">(peek(), len)</span></span>;</span><br><span class="line">    <span class="built_in">retrieve</span>(len);  <span class="comment">// 对缓冲区做复位操作</span></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果可写缓冲区中的空间不够写，就需要扩容。<code>append(const char* data, size_t len)</code> 函数将给定的 <code>data</code> 数据添加到缓冲区中，并更新 <code>writerIndex_</code>。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// buffer_.size - writerIndex_ 表示缓冲区中可写的空间</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">ensureWritableBytes</span><span class="params">(<span class="type">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">writableBytes</span>() &lt; len) &#123;</span><br><span class="line">        <span class="built_in">makeSpace</span>(len);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 把[data, data+len]内存上的数据，添加到writable缓冲区当中</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">append</span><span class="params">(<span class="type">const</span> <span class="type">char</span>* data, <span class="type">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">ensureWritableBytes</span>(len);</span><br><span class="line">    std::<span class="built_in">copy</span>(data, data + len, <span class="built_in">beginWrite</span>());</span><br><span class="line">    writerIndex_ += len;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自动增长"><a href="#自动增长" class="headerlink" title="自动增长"></a>自动增长</h3><p>这个 <code>makeSpace(size_t len)</code> 函数的目的是在缓冲区中腾出足够的空间，以便存储长度为 <code>len</code> 的数据。如果当前缓冲区的可写空间不足，函数将通过扩展缓冲区或重新整理现有数据来确保有足够的空间。让我们逐步分析这个函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">makeSpace</span><span class="params">(<span class="type">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 判断可写缓冲区的大小加上预写缓冲区的大小是否小于len加kCheapPrepend</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">writableBytes</span>() + <span class="built_in">prependableBytes</span>() &lt; len + kCheapPrepend) &#123;</span><br><span class="line">        <span class="comment">// 如果小于，则调整缓冲区的大小</span></span><br><span class="line">        buffer_.<span class="built_in">resize</span>(writerIndex_ + len);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 获取可读大小</span></span><br><span class="line">        <span class="type">size_t</span> readable = <span class="built_in">readableBytes</span>();</span><br><span class="line">        <span class="comment">// 将从readerIndex_到writerIndex_之间的数据复制到缓冲区的kCheapPrepend位置</span></span><br><span class="line">        std::<span class="built_in">copy</span>(<span class="built_in">begin</span>() + readerIndex_, <span class="built_in">begin</span>() + writerIndex_, <span class="built_in">begin</span>() + kCheapPrepend);</span><br><span class="line">        <span class="comment">// 修改readerIndex_</span></span><br><span class="line">        readerIndex_ = kCheapPrepend;</span><br><span class="line">        <span class="comment">// 修改writerIndex_</span></span><br><span class="line">        writerIndex_ = readerIndex_ + readable;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果可写区域的长度和预留区域的长度之和要小于所需长度和初始化预留区域的长度(8)之和，就需要对缓冲区进行扩容，其过程如下图所示，可见，扩容后可写区域的长度即为所需长度 len。</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240605150032071.png"  alt="image-20240605150032071"></p>
+<p>否则，则表示预留空间和可写区域还很充足，为此需要将预留区域中多出来的部分移动到可写区域中去。其过程如下图所示，先将可写区域的内容向前移动，使得预留区域恢复为初始化大小，即 8。然后移动读指针和写指针。</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240605150055404.png"  alt="image-20240605150055404"></p>
+<p><code>readFd</code>用于从文件描述符 <code>fd</code> 读取数据，并将其存储在缓冲区中。它使用了 <code>readv</code> 函数来一次性读取数据到多个缓冲区。以下是对这段代码的详细解释：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">Buffer::readFd</span><span class="params">(<span class="type">int</span> fd, <span class="type">int</span>* savedErrno)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="type">char</span> extrabuf[<span class="number">65536</span>];</span><br><span class="line">    <span class="keyword">struct</span> <span class="title class_">iovec</span> vec[<span class="number">2</span>];</span><br><span class="line">    <span class="type">const</span> <span class="type">size_t</span> writable = <span class="built_in">writableBytes</span>();</span><br><span class="line">    vec[<span class="number">0</span>].iov_base = <span class="built_in">begin</span>() + writerIndex_;</span><br><span class="line">    vec[<span class="number">0</span>].iov_len = writable;</span><br><span class="line">    vec[<span class="number">1</span>].iov_base = extrabuf;</span><br><span class="line">    vec[<span class="number">1</span>].iov_len = <span class="keyword">sizeof</span> extrabuf;</span><br><span class="line">    <span class="type">const</span> <span class="type">int</span> iovcnt = (writable &lt; <span class="keyword">sizeof</span> extrabuf) ? <span class="number">2</span> : <span class="number">1</span>;</span><br><span class="line">    <span class="type">const</span> <span class="type">ssize_t</span> n = sockets::<span class="built_in">readv</span>(fd, vec, iovcnt);</span><br><span class="line">    <span class="keyword">if</span> (n &lt; <span class="number">0</span>) &#123;</span><br><span class="line">        *savedErrno = errno;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">implicit_cast</span>&lt;<span class="type">size_t</span>&gt;(n) &lt;= writable) &#123;</span><br><span class="line">        writerIndex_ += n;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        writerIndex_ = buffer_.<span class="built_in">size</span>();</span><br><span class="line">        <span class="built_in">append</span>(extrabuf, n - writable);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> n;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结构体 <code>iovec</code> 则用于定义一个向量元素，其定义如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">iovec</span> &#123;</span><br><span class="line">    <span class="type">void</span>   *iov_base; <span class="comment">/* Starting address (内存起始地址）*/</span></span><br><span class="line">    <span class="type">size_t</span> iov_len;   <span class="comment">/* Number of bytes to transfer（这块内存长度） */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>iov_base</code> 所指向的缓冲区用于存放网络接受的数据，或者是网络将要发送的数据。而 <code>iov_len</code> 字段用于存放接受数据的最大长度，或者是实际写入的数据长度。</p>
+<p>在 <code>readFd</code> 方法中，定义了两个 <code>iovec</code> 结构体，一部分用于将读到的数据放在可写区域，另一部分用于将读到的数据放在额外缓冲区域。然后，使用如下方法进行分散读，即将数据从文件描述符读到分散的内存块中。其中的第三个参数表示<code> iov</code> 的数组长度。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;sys/uio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="type">ssize_t</span> <span class="title">readv</span><span class="params">(<span class="type">int</span> fd, <span class="type">const</span> <span class="keyword">struct</span> iovec *iov, <span class="type">int</span> iovcnt)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>从 <code>readFd</code> 方法中可以看出，如果可写区域的长度小于 65536，则两个内存块都使用，否则只使用可写区域即可。</p>
+<p>最后根据 <code>readv</code> 方法的返回值来确定是否需要额外缓冲区，如果返回的字节数要大于可写区域的长度，说明两个内存块都使用了，且可写区域中已经填充满了，其余的数据全部在额外缓冲区中，此时，只需移动写指针到缓冲区的数据末端，然后将额外缓冲区中的数据追加进来即可。</p>
+<h2 id="TcpConnection必须要有output-buffer"><a href="#TcpConnection必须要有output-buffer" class="headerlink" title="TcpConnection必须要有output buffer"></a>TcpConnection必须要有output buffer</h2><p>一个常见场景：程序想通过TCP连接发送100K byte数据，但在write()调用中，OS只接收80K（受TCP通告窗口advertised window的控制），而程序又不能原地阻塞等待，事实上也不知道要等多久。程序应该尽快交出控制器，返回到event loop。此时，剩余20K数据怎么办？</p>
+<p>对应用程序，它只管生成数据，不应该关系到底数据是一次发送，还是分几次发送，这些应该由网络库操心，程序只需要调用TcpConnection::send()就行。网络库应该接管剩余的20K数据，把它保存到TcpConnection的output buffer，然后注册POLLOUT事件，一旦socket变得可写就立刻发送数据。当然，第二次不一定能完全写入20K，如果有剩余，网络库应该继续关注POLLOUT事件；如果写完20K，网络库应该停止关注POLLOUT，以免造成busy loop。</p>
+<p>如果程序又写入50K，而此时output buffer里还有待发20K数据，那么网络库不应该直接调用write()，而应该把这50K数据append到那20K数据之后，等socket变得可写时再一并写入。</p>
+<p>如果output buffer里还有待发送数据，而程序又想关闭连接，但对程序而言，调用TcpConnection::send()后就认为数据迟早会发出去，此时网络库不应该直接关闭连接，而要等数据发送完毕。因为此时数据可能还在内核缓冲区中，并没有通过网卡成功发送给接收方。<br>将数据append到buffer，甚至write进内核，都不代表数据成功发送给对端。</p>
+<p>综上，要让程序在write操作上不阻塞，网络库必须给每个tcp connection配置output buffer。</p>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                moduo之Buffer
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/06/moduo之Buffer/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-06 16:53</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/moduo/">moduo</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/06/Reactor-Proactor%E6%A8%A1%E5%BC%8F/"
+                                   title="Reactor/Proactor模式"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Reactor/Proactor模式</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E4%B8%AD%E7%9A%84Buffer"><span class="nav-number">1.</span> <span class="nav-text">Muduo中的Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9C%89%E5%BA%94%E7%94%A8%E5%B1%82%E7%BC%93%E5%86%B2%E5%8C%BA%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">为什么需要有应用层缓冲区？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.</span> <span class="nav-text">Buffer的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%A2%9E%E9%95%BF"><span class="nav-number">1.2.1.</span> <span class="nav-text">自动增长</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TcpConnection%E5%BF%85%E9%A1%BB%E8%A6%81%E6%9C%89output-buffer"><span class="nav-number">1.3.</span> <span class="nav-text">TcpConnection必须要有output buffer</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E4%B8%AD%E7%9A%84Buffer"><span class="nav-number">1.</span> <span class="nav-text">Muduo中的Buffer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E6%9C%89%E5%BA%94%E7%94%A8%E5%B1%82%E7%BC%93%E5%86%B2%E5%8C%BA%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">为什么需要有应用层缓冲区？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Buffer%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.</span> <span class="nav-text">Buffer的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E5%A2%9E%E9%95%BF"><span class="nav-number">1.2.1.</span> <span class="nav-text">自动增长</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TcpConnection%E5%BF%85%E9%A1%BB%E8%A6%81%E6%9C%89output-buffer"><span class="nav-number">1.3.</span> <span class="nav-text">TcpConnection必须要有output buffer</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
