@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            Reactor/Proactor模式 |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Reactor/Proactor模式
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">炼气</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-06 15:39:44</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jun 06 2024 15:41:19 GMT+0800">2024-06-06 15:41:19</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/C-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-Reactor/">C++ 网络编程 Reactor</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>5 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h1 id="服务器的演变"><a href="#服务器的演变" class="headerlink" title="服务器的演变"></a>服务器的演变</h1><ol>
+<li>为每个连接创建一个进程&#x2F;线程（不断的创建和销毁进程&#x2F;线程，带来很大的性能开销，造成资源浪费）</li>
+<li>创建线程池（无法高效的处理多个连接业务，一个线程处理多个连接的业务时，线程在处理某个连接的<code>read</code>操作（默认是阻塞的）时，如果一直没有数据可读，就会阻塞，线程就无法处理其他业务）</li>
+<li>将阻塞IO改为非阻塞IO (线程会不断的轮询调用<code>read</code>来判断是否有数据，轮询是消耗CPU的，而且随着一个线程要处理的连接越多，轮询的效率就会越低)</li>
+<li>I&#x2F;O多路复用（不需要轮询，用系统调用函数监听关心的事件，注册回调，没有事情发生时，会阻塞在这个系统调用，而不是像线程池那样轮询调用<code>read</code>）</li>
+<li>使用<code>Reactor/Proactor</code>模式：将IO事件与业务分离，解耦</li>
+</ol>
+<h2 id="阻塞IO和非阻塞IO"><a href="#阻塞IO和非阻塞IO" class="headerlink" title="阻塞IO和非阻塞IO"></a>阻塞IO和非阻塞IO</h2><ul>
+<li>针对阻塞 I&#x2F;O 执行的系统调用可能因为无法立即完成而被操作系统挂起，直到等待的事件发生为止。可能被阻塞的系统调用为 <strong>accept</strong>、<strong>send</strong>、<strong>recv</strong> 和 <strong>connect</strong>；</li>
+<li>针对非阻塞 I&#x2F;O 执行的系统调用则总是立即返回，而不管事件是否已经发生。如果事件没有立即发生，这些系统调用就返回 <code>-1</code>，和出错的情况一样。此时我们必须根据 <code>errno</code> 来区分这两种情况。<ul>
+<li>对 <strong>accept</strong>、<strong>send</strong>、<strong>recv</strong> 而言，事件未发生时 <code>errno</code> 通常被设置为 <code>EAGAIN</code>（意为“再来一次”）或者 <code>EWOUDBLOCK</code>（意为“期望阻塞”）；</li>
+<li>对 <strong>connect</strong> 而言，<code>errno</code> 则被设置成 <code>EINPROGRESS</code>（意为“在处理中”）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>阻塞等待的是「内核数据准备好」和「数据从内核态拷贝到用户态」这两个过程</strong></p>
+<h2 id="同步IO和异步IO"><a href="#同步IO和异步IO" class="headerlink" title="同步IO和异步IO"></a>同步IO和异步IO</h2><ul>
+<li>同步IO：请求时，如果数据未准备好，会一直阻塞进程，直到IO操作完成</li>
+<li>异步IO:请求时，不管数据是否准备好，都立即返回</li>
+</ul>
+<h2 id="什么情况下需要I-O多路复用技术"><a href="#什么情况下需要I-O多路复用技术" class="headerlink" title="什么情况下需要I&#x2F;O多路复用技术"></a>什么情况下需要I&#x2F;O多路复用技术</h2><p>传统的 I&#x2F;O 模型中，每个连接或操作都需要一个独立的线程或进程来处理，这会消耗大量的系统资源。而使用 I&#x2F;O 多路复用技术，可以通过一个线程或进程同时监听多个 I&#x2F;O 事件，从而减少了资源的消耗。</p>
+<p><strong>IO多路复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态</strong>，比如调用select和poll函数，传入多个文件描述符，<strong>如果有一个文件描述符就绪，则返回，否则阻塞直到超时</strong>。</p>
+<p>这样在处理1000个连接时，<strong>只需要1个线程监控就绪状态，对就绪的每个连接开一个线程处理就可以了，这样需要的线程数大大减少，减少了内存开销和上下文切换的CPU开销。</strong></p>
+<h2 id="五种I-O模型"><a href="#五种I-O模型" class="headerlink" title="五种I&#x2F;O模型"></a>五种I&#x2F;O模型</h2><p><strong>阻塞 I&#x2F;O 模型（Blocking I&#x2F;O）：</strong></p>
+<ul>
+<li>在阻塞 I&#x2F;O 模型中，当应用程序发起一个 I&#x2F;O 操作时，它会被阻塞，直到操作完成。</li>
+<li>这意味着应用程序无法执行其他任务，直到 I&#x2F;O 操作完成。</li>
+</ul>
+<p><strong>非阻塞 I&#x2F;O 模型（Non-blocking I&#x2F;O）：</strong></p>
+<ul>
+<li>在非阻塞 I&#x2F;O 模型中，应用程序可以继续执行其他任务而不必等待 I&#x2F;O 操作的完成。</li>
+<li>当一个 I&#x2F;O 操作发起后，应用程序可以立即返回并执行其他任务，然后周期性地检查 I&#x2F;O 操作是否完成。</li>
+</ul>
+<p><strong>多路复用 I&#x2F;O 模型（I&#x2F;O Multiplexing）：</strong></p>
+<ul>
+<li>多路复用 I&#x2F;O 模型使用 <code>select</code>、<code>poll</code> 或 <code>epoll</code> 等机制，允许应用程序监视多个文件描述符，等待其中任何一个变为可读或可写状态。</li>
+<li>当有数据准备好时，应用程序会得到通知，然后可以进行读或写操作。</li>
+</ul>
+<p><strong>信号驱动IO</strong></p>
+<ul>
+<li>linux用套接口进行信号驱动IO，安装一个信号处理函数，进程继续运行并不阻塞，当IO时间就绪，进程收到SIGIO信号。然后处理IO事件。</li>
+</ul>
+<p><strong>阻塞I&#x2F;O，非阻塞I&#x2F;O，信号驱动I&#x2F;O和I&#x2F;O复用都是同步I&#x2F;O。同步I&#x2F;O指内核向应用程序通知的是就绪事件，比如只通知有客户端连接，要求用户代码自行执行I&#x2F;O操作，异步I&#x2F;O是指内核向应用程序通知的是完成事件，比如读取客户端的数据后才通知应用程序，由内核完成I&#x2F;O操作。</strong></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://lantingshuxu.github.io/%E5%85%B6%E4%BB%96/UNIX%E4%BA%94%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/" >UNIX五种IO模型 | 蓝亭书序 (lantingshuxu.github.io)<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Reactor模式和Proactor模式"><a href="#Reactor模式和Proactor模式" class="headerlink" title="Reactor模式和Proactor模式"></a>Reactor模式和Proactor模式</h2><ul>
+<li><p><code>Reactor</code>模式要求主线程（I&#x2F;O 处理单元）<strong>只负责监听文件描述符上是否有事件发生</strong>。有的话立即通知工作线程（逻辑单元），读写数据、接受新的连接及处理客户请求均在工作线程中完成。通常由同步I&#x2F;O实现。</p>
+</li>
+<li><p><code>Proactor</code>模式将所有的 I&#x2F;O 操作都交给主线程和内核来处理，工作线程仅仅负责业务逻辑。通常由异步 I&#x2F;O （<code>aio_read()</code>和<code>aid_write()</code>）实现。</p>
+</li>
+</ul>
+<p>因此，<strong>Reactor 可以理解为「来了事件操作系统通知应用进程，让应用进程来处理」</strong>，而 <strong>Proactor 可以理解为「来了事件操作系统来处理，处理完再通知应用进程」</strong>。</p>
+<p><strong>Reactor 模式是基于「待完成」的 I&#x2F;O 事件，而 Proactor 模式则是基于「已完成」的 I&#x2F;O 事件</strong>。</p>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Reactor/Proactor模式
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/06/Reactor-Proactor模式/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-06 15:39</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/C-%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-Reactor/">C++ 网络编程 Reactor</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/05/17/Docker%E5%85%A5%E9%97%A8/"
+                                   title="Docker入门"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Docker入门</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%BC%94%E5%8F%98"><span class="nav-number">1.</span> <span class="nav-text">服务器的演变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="nav-number">1.1.</span> <span class="nav-text">阻塞IO和非阻塞IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5IO%E5%92%8C%E5%BC%82%E6%AD%A5IO"><span class="nav-number">1.2.</span> <span class="nav-text">同步IO和异步IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81I-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.</span> <span class="nav-text">什么情况下需要I&#x2F;O多路复用技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E7%A7%8DI-O%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">五种I&#x2F;O模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reactor%E6%A8%A1%E5%BC%8F%E5%92%8CProactor%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">Reactor模式和Proactor模式</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%BC%94%E5%8F%98"><span class="nav-number">1.</span> <span class="nav-text">服务器的演变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%BB%E5%A1%9EIO%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="nav-number">1.1.</span> <span class="nav-text">阻塞IO和非阻塞IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5IO%E5%92%8C%E5%BC%82%E6%AD%A5IO"><span class="nav-number">1.2.</span> <span class="nav-text">同步IO和异步IO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81I-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="nav-number">1.3.</span> <span class="nav-text">什么情况下需要I&#x2F;O多路复用技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E7%A7%8DI-O%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.4.</span> <span class="nav-text">五种I&#x2F;O模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reactor%E6%A8%A1%E5%BC%8F%E5%92%8CProactor%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">Reactor模式和Proactor模式</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

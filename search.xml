@@ -192,6 +192,69 @@
       </tags>
   </entry>
   <entry>
+    <title>Reactor/Proactor模式</title>
+    <url>/2024/06/06/Reactor-Proactor%E6%A8%A1%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="服务器的演变"><a href="#服务器的演变" class="headerlink" title="服务器的演变"></a>服务器的演变</h1><ol>
+<li>为每个连接创建一个进程&#x2F;线程（不断的创建和销毁进程&#x2F;线程，带来很大的性能开销，造成资源浪费）</li>
+<li>创建线程池（无法高效的处理多个连接业务，一个线程处理多个连接的业务时，线程在处理某个连接的<code>read</code>操作（默认是阻塞的）时，如果一直没有数据可读，就会阻塞，线程就无法处理其他业务）</li>
+<li>将阻塞IO改为非阻塞IO (线程会不断的轮询调用<code>read</code>来判断是否有数据，轮询是消耗CPU的，而且随着一个线程要处理的连接越多，轮询的效率就会越低)</li>
+<li>I&#x2F;O多路复用（不需要轮询，用系统调用函数监听关心的事件，注册回调，没有事情发生时，会阻塞在这个系统调用，而不是像线程池那样轮询调用<code>read</code>）</li>
+<li>使用<code>Reactor/Proactor</code>模式：将IO事件与业务分离，解耦</li>
+</ol>
+<h2 id="阻塞IO和非阻塞IO"><a href="#阻塞IO和非阻塞IO" class="headerlink" title="阻塞IO和非阻塞IO"></a>阻塞IO和非阻塞IO</h2><ul>
+<li>针对阻塞 I&#x2F;O 执行的系统调用可能因为无法立即完成而被操作系统挂起，直到等待的事件发生为止。可能被阻塞的系统调用为 <strong>accept</strong>、<strong>send</strong>、<strong>recv</strong> 和 <strong>connect</strong>；</li>
+<li>针对非阻塞 I&#x2F;O 执行的系统调用则总是立即返回，而不管事件是否已经发生。如果事件没有立即发生，这些系统调用就返回 <code>-1</code>，和出错的情况一样。此时我们必须根据 <code>errno</code> 来区分这两种情况。<ul>
+<li>对 <strong>accept</strong>、<strong>send</strong>、<strong>recv</strong> 而言，事件未发生时 <code>errno</code> 通常被设置为 <code>EAGAIN</code>（意为“再来一次”）或者 <code>EWOUDBLOCK</code>（意为“期望阻塞”）；</li>
+<li>对 <strong>connect</strong> 而言，<code>errno</code> 则被设置成 <code>EINPROGRESS</code>（意为“在处理中”）。</li>
+</ul>
+</li>
+</ul>
+<p><strong>阻塞等待的是「内核数据准备好」和「数据从内核态拷贝到用户态」这两个过程</strong></p>
+<h2 id="同步IO和异步IO"><a href="#同步IO和异步IO" class="headerlink" title="同步IO和异步IO"></a>同步IO和异步IO</h2><ul>
+<li>同步IO：请求时，如果数据未准备好，会一直阻塞进程，直到IO操作完成</li>
+<li>异步IO:请求时，不管数据是否准备好，都立即返回</li>
+</ul>
+<h2 id="什么情况下需要I-O多路复用技术"><a href="#什么情况下需要I-O多路复用技术" class="headerlink" title="什么情况下需要I&#x2F;O多路复用技术"></a>什么情况下需要I&#x2F;O多路复用技术</h2><p>传统的 I&#x2F;O 模型中，每个连接或操作都需要一个独立的线程或进程来处理，这会消耗大量的系统资源。而使用 I&#x2F;O 多路复用技术，可以通过一个线程或进程同时监听多个 I&#x2F;O 事件，从而减少了资源的消耗。</p>
+<p><strong>IO多路复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态</strong>，比如调用select和poll函数，传入多个文件描述符，<strong>如果有一个文件描述符就绪，则返回，否则阻塞直到超时</strong>。</p>
+<p>这样在处理1000个连接时，<strong>只需要1个线程监控就绪状态，对就绪的每个连接开一个线程处理就可以了，这样需要的线程数大大减少，减少了内存开销和上下文切换的CPU开销。</strong></p>
+<h2 id="五种I-O模型"><a href="#五种I-O模型" class="headerlink" title="五种I&#x2F;O模型"></a>五种I&#x2F;O模型</h2><p><strong>阻塞 I&#x2F;O 模型（Blocking I&#x2F;O）：</strong></p>
+<ul>
+<li>在阻塞 I&#x2F;O 模型中，当应用程序发起一个 I&#x2F;O 操作时，它会被阻塞，直到操作完成。</li>
+<li>这意味着应用程序无法执行其他任务，直到 I&#x2F;O 操作完成。</li>
+</ul>
+<p><strong>非阻塞 I&#x2F;O 模型（Non-blocking I&#x2F;O）：</strong></p>
+<ul>
+<li>在非阻塞 I&#x2F;O 模型中，应用程序可以继续执行其他任务而不必等待 I&#x2F;O 操作的完成。</li>
+<li>当一个 I&#x2F;O 操作发起后，应用程序可以立即返回并执行其他任务，然后周期性地检查 I&#x2F;O 操作是否完成。</li>
+</ul>
+<p><strong>多路复用 I&#x2F;O 模型（I&#x2F;O Multiplexing）：</strong></p>
+<ul>
+<li>多路复用 I&#x2F;O 模型使用 <code>select</code>、<code>poll</code> 或 <code>epoll</code> 等机制，允许应用程序监视多个文件描述符，等待其中任何一个变为可读或可写状态。</li>
+<li>当有数据准备好时，应用程序会得到通知，然后可以进行读或写操作。</li>
+</ul>
+<p><strong>信号驱动IO</strong></p>
+<ul>
+<li>linux用套接口进行信号驱动IO，安装一个信号处理函数，进程继续运行并不阻塞，当IO时间就绪，进程收到SIGIO信号。然后处理IO事件。</li>
+</ul>
+<p><strong>阻塞I&#x2F;O，非阻塞I&#x2F;O，信号驱动I&#x2F;O和I&#x2F;O复用都是同步I&#x2F;O。同步I&#x2F;O指内核向应用程序通知的是就绪事件，比如只通知有客户端连接，要求用户代码自行执行I&#x2F;O操作，异步I&#x2F;O是指内核向应用程序通知的是完成事件，比如读取客户端的数据后才通知应用程序，由内核完成I&#x2F;O操作。</strong></p>
+<p><a class="link"   href="https://lantingshuxu.github.io/%E5%85%B6%E4%BB%96/UNIX%E4%BA%94%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/" >UNIX五种IO模型 | 蓝亭书序 (lantingshuxu.github.io)<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="Reactor模式和Proactor模式"><a href="#Reactor模式和Proactor模式" class="headerlink" title="Reactor模式和Proactor模式"></a>Reactor模式和Proactor模式</h2><ul>
+<li><p><code>Reactor</code>模式要求主线程（I&#x2F;O 处理单元）<strong>只负责监听文件描述符上是否有事件发生</strong>。有的话立即通知工作线程（逻辑单元），读写数据、接受新的连接及处理客户请求均在工作线程中完成。通常由同步I&#x2F;O实现。</p>
+</li>
+<li><p><code>Proactor</code>模式将所有的 I&#x2F;O 操作都交给主线程和内核来处理，工作线程仅仅负责业务逻辑。通常由异步 I&#x2F;O （<code>aio_read()</code>和<code>aid_write()</code>）实现。</p>
+</li>
+</ul>
+<p>因此，<strong>Reactor 可以理解为「来了事件操作系统通知应用进程，让应用进程来处理」</strong>，而 <strong>Proactor 可以理解为「来了事件操作系统来处理，处理完再通知应用进程」</strong>。</p>
+<p><strong>Reactor 模式是基于「待完成」的 I&#x2F;O 事件，而 Proactor 模式则是基于「已完成」的 I&#x2F;O 事件</strong>。</p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>C++ 网络编程 Reactor</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于epoll的web服务器</title>
     <url>/2024/04/12/%E5%9F%BA%E4%BA%8Eepoll%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
     <content><![CDATA[<h2 id="基于epoll的web服务器-C语言版本"><a href="#基于epoll的web服务器-C语言版本" class="headerlink" title="基于epoll的web服务器(C语言版本)"></a>基于epoll的web服务器(C语言版本)</h2><h3 id="1-初始化监听套接字"><a href="#1-初始化监听套接字" class="headerlink" title="1. 初始化监听套接字"></a>1. 初始化监听套接字</h3><p>包括创建监听套接字，设置端口复用，绑定，设置监听等步骤</p>
