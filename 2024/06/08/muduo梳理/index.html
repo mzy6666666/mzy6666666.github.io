@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            muduo梳理 |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        muduo梳理
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">炼气</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-08 17:22:54</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Sat Jun 08 2024 17:23:26 GMT+0800">2024-06-08 17:23:26</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E7%AC%94%E8%AE%B0/">笔记</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/moduo/">moduo</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>825 Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>3 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h1 id="Muduo梳理"><a href="#Muduo梳理" class="headerlink" title="Muduo梳理"></a><code>Muduo</code>梳理</h1><h2 id="使用Muduo搭建简单的服务器"><a href="#使用Muduo搭建简单的服务器" class="headerlink" title="使用Muduo搭建简单的服务器"></a>使用<code>Muduo</code>搭建简单的服务器</h2><ol>
+<li>建立事件循环器<code>EventLoop : loop</code></li>
+<li>建立服务器对象<code>TcpServer ：server</code></li>
+<li>向<code>TcpServer</code>中注册各类事件的用户自定义的回调函数：<code>onConnection</code>,<code>onMessage</code></li>
+<li>设置底层线程数量</li>
+<li>启动<code>start</code>函数，<code>server.start()</code></li>
+<li>开启主线程（<code>mainloop</code>)事件循环<code>loop.loop()</code></li>
+</ol>
+<h2 id="构建TCP对象"><a href="#构建TCP对象" class="headerlink" title="构建TCP对象"></a>构建TCP对象</h2><p>在<code>TcpServer</code>的构造函数中建立一个<code>Acceptor</code>的对象，在<code>Acceptor</code>的构造函数中创建了一个非阻塞的<code>listenfd</code>，并封装为<code>Channel</code>对象<code>acceptChannel</code>。在<code>Acceptor</code>构造函数中，给<code>acceptChannel</code>设置了一个<code>ReadCallback</code>回调，事件绑定了<code>handleread</code>。当有新用户连接到来时，<code>Poller</code>监听<code>channel</code>发生事件了，然后上报给<code>EventLoop</code>，通知<code>channel</code>处理相应的事件注册。在底层<code>Channel</code>中的<code>handleEvent</code>就会监控到<code>EPOLLIN</code>事件，并执行相应的<code>readCallback()</code>；而对于<code>acceptChannel</code>对应的<code>readCallback()</code>方法，就是执行<code>Accpetor::handleread()</code>，实际上是执行一个<code>newConnectionCallback_()</code>的回调，而<code>newConnectionCallback_()</code>是通过<code>setnewConnectionCallback</code>设置的，而<code>Acceptor</code>是由<code>TcpServer</code>管理的，实际是设置的<code>setnewConnectionCallback</code>是<code>TcpServer::newConnection</code></p>
+<blockquote>
+<p><code>acceptChannel</code>注册在事件监听器<code>Poller</code>上，<code>acceptChannel</code>发生可读事件（即新用户连接）就会调用 <code>Acceptor::handleRead </code></p>
+<p><code>Acceptor::setReadCallback</code> &#x3D;&gt; <code>Acceptor::handleRead </code>&#x3D;&gt; <code>newConnectionCallback</code></p>
+<p>​																											||</p>
+<p>​																<code>TcpServer</code>的构造函数中设置了<code>acceptor-&gt;setnewConnectionCallback</code></p>
+<p>​																											||</p>
+<p>​																       实际上设置的就是<code>TcpServer::newConnection</code></p>
+<p>注册在<code>mainloop</code>中的<code>acceptor</code>，当有新用户连接到来，最终相应的是<code>TcpServer::newConnection</code></p>
+</blockquote>
+<p>而<code>TcpServer::newConnection()</code>实际是创建了一个<code>TcpConnection</code>的对象</p>
+<h2 id="start-方法调用"><a href="#start-方法调用" class="headerlink" title="start()方法调用"></a><code>start()</code>方法调用</h2><blockquote>
+<p><code>threadPool_-&gt;start(threadInitCallback_);</code> &#x2F;&#x2F; 启动底层的loop线程池</p>
+<p>​							||</p>
+<p>创建<code>loop</code>子线程并开启<code>loop.loop()</code>（子线程）</p>
+<p>执行<code>accept::listen()</code>方法，实际上就是将<code>accpetChannel</code>注册在<code>mainloop</code>的<code>Poller</code>上</p>
+</blockquote>
+<h2 id="开启mainloop的loop（为搭建服务器的最后一步"><a href="#开启mainloop的loop（为搭建服务器的最后一步" class="headerlink" title="开启mainloop的loop（为搭建服务器的最后一步)"></a>开启<code>mainloop</code>的<code>loop</code>（为搭建服务器的最后一步)</h2><h2 id="新用户连接到来"><a href="#新用户连接到来" class="headerlink" title="新用户连接到来"></a>新用户连接到来</h2><blockquote>
+<p><code>TcpServer::newConnection</code></p>
+<p>​				||</p>
+<p>根据轮询算法，选择一个<code>subLoop</code>，即<code>ioloop</code></p>
+<p>创建了一个<code>TcpConnection</code>对象，注册相应的回调（<code>close</code>的回调对应<code>TcpServer::removeConnection</code>）</p>
+<p>直接调用<code>TcpConnection::connectEstablished</code></p>
+<p><code> ioLoop-&gt;runInLoop</code> &#x3D;&gt; <code>TcpConnection::connectEstablished</code>,因为设置了子线程数量（如果没有设置子线程数量，之间在<code>mainloop</code>中执行），<code>runInLoop</code>实际调用的是<code>queueInLoop()</code>，执行<code>wakeup()</code>，通过<code>ioloop</code>的指针找到<code>wakeupfd</code>，向<code>wakeupfd</code>写一个数据，<code>wakeupChannel</code>就发生读事件，当前<code>loop</code>线程(即<code>ioloop</code>)就会被唤醒，唤醒后执行<code>connectEstablished()</code>。</p>
+<p>​				||</p>
+<p><code>TcpConnection::connectEstablished</code></p>
+<p>向<code>poller</code>注册<code>channel</code>的<code>epollin</code>事件，然后执行<code>connectionCallback</code>，对应的就是用户自定义的<code>onConnection</code>函数执行成功，就会有<code>socket</code>和<code>Channel</code>注册在这个<code>subloop</code>上</p>
+</blockquote>
+<h2 id="连接成功后，数据通信"><a href="#连接成功后，数据通信" class="headerlink" title="连接成功后，数据通信"></a>连接成功后，数据通信</h2><blockquote>
+<p>成功建立连接后<br>        ||<br>有可读事件到来，就会执行<code>Channel</code>中的<code>readCallback()</code>，而<code>readCallback()</code>是通过<code>setReadCallback</code>设置的，在<code>TcpConnection</code>中，<code>setReadCallback</code>绑定是<code>TcpConnection::handleRead</code></p>
+<p>​		||</p>
+<p>开始读数据，读完数据后，执行用户自定义的回调操作<code>onMessage</code>，然后就得到原始字符串，进行业务处理，业务处理完进行响应（如：回送消息）</p>
+</blockquote>
+<h2 id="连接关闭"><a href="#连接关闭" class="headerlink" title="连接关闭"></a>连接关闭</h2><blockquote>
+<p>通信异常或者对端关闭，底层<code>channel</code>都会触发<code>closeCallback</code>的回调，而<code>closeCallback()</code>是通过<code>setCloseCallback</code>设置的。在<code>TcpConnection</code>中，<code>setCloseCallback</code>绑定是<code>TcpConnection::handleClose</code></p>
+<p>​													||</p>
+<p><code>channel_-&gt;disableAll()</code>，将<code>chanel</code>所有感兴趣的事件，在<code>poller</code>上全部进行删除，然后执行用户的回调</p>
+<p>执行<code>closeCallback_(connPtr)</code>,关闭连接的回调  执行的是<code>TcpServer::removeConnection</code>回调方法</p>
+<p>​													||</p>
+<p>​	将保存所有的<code>TcpConnection</code>连接的<code>map</code>删除，然后获取这条连接对应的<code>ioloop</code>，然后执行<code>TcpConnection::connectDestroyed</code>，把<code>channel</code>从<code>poller</code>中删除掉</p>
+</blockquote>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                muduo梳理
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/08/muduo梳理/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-08 17:22</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/moduo/">moduo</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/06/moduo%E4%B9%8BBuffer/"
+                                   title="moduo之Buffer"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">moduo之Buffer</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E6%A2%B3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Muduo梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Muduo%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">使用Muduo搭建简单的服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BATCP%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">构建TCP对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">start()方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFmainloop%E7%9A%84loop%EF%BC%88%E4%B8%BA%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">开启mainloop的loop（为搭建服务器的最后一步)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%94%A8%E6%88%B7%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9D%A5"><span class="nav-number">1.5.</span> <span class="nav-text">新用户连接到来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E5%90%8E%EF%BC%8C%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-number">1.6.</span> <span class="nav-text">连接成功后，数据通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD"><span class="nav-number">1.7.</span> <span class="nav-text">连接关闭</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E6%A2%B3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Muduo梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Muduo%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">使用Muduo搭建简单的服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BATCP%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">构建TCP对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">start()方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFmainloop%E7%9A%84loop%EF%BC%88%E4%B8%BA%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">开启mainloop的loop（为搭建服务器的最后一步)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%94%A8%E6%88%B7%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9D%A5"><span class="nav-number">1.5.</span> <span class="nav-text">新用户连接到来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E5%90%8E%EF%BC%8C%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-number">1.6.</span> <span class="nav-text">连接成功后，数据通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD"><span class="nav-number">1.7.</span> <span class="nav-text">连接关闭</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>

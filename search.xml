@@ -312,6 +312,66 @@
       </tags>
   </entry>
   <entry>
+    <title>muduo梳理</title>
+    <url>/2024/06/08/muduo%E6%A2%B3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Muduo梳理"><a href="#Muduo梳理" class="headerlink" title="Muduo梳理"></a><code>Muduo</code>梳理</h1><h2 id="使用Muduo搭建简单的服务器"><a href="#使用Muduo搭建简单的服务器" class="headerlink" title="使用Muduo搭建简单的服务器"></a>使用<code>Muduo</code>搭建简单的服务器</h2><ol>
+<li>建立事件循环器<code>EventLoop : loop</code></li>
+<li>建立服务器对象<code>TcpServer ：server</code></li>
+<li>向<code>TcpServer</code>中注册各类事件的用户自定义的回调函数：<code>onConnection</code>,<code>onMessage</code></li>
+<li>设置底层线程数量</li>
+<li>启动<code>start</code>函数，<code>server.start()</code></li>
+<li>开启主线程（<code>mainloop</code>)事件循环<code>loop.loop()</code></li>
+</ol>
+<h2 id="构建TCP对象"><a href="#构建TCP对象" class="headerlink" title="构建TCP对象"></a>构建TCP对象</h2><p>在<code>TcpServer</code>的构造函数中建立一个<code>Acceptor</code>的对象，在<code>Acceptor</code>的构造函数中创建了一个非阻塞的<code>listenfd</code>，并封装为<code>Channel</code>对象<code>acceptChannel</code>。在<code>Acceptor</code>构造函数中，给<code>acceptChannel</code>设置了一个<code>ReadCallback</code>回调，事件绑定了<code>handleread</code>。当有新用户连接到来时，<code>Poller</code>监听<code>channel</code>发生事件了，然后上报给<code>EventLoop</code>，通知<code>channel</code>处理相应的事件注册。在底层<code>Channel</code>中的<code>handleEvent</code>就会监控到<code>EPOLLIN</code>事件，并执行相应的<code>readCallback()</code>；而对于<code>acceptChannel</code>对应的<code>readCallback()</code>方法，就是执行<code>Accpetor::handleread()</code>，实际上是执行一个<code>newConnectionCallback_()</code>的回调，而<code>newConnectionCallback_()</code>是通过<code>setnewConnectionCallback</code>设置的，而<code>Acceptor</code>是由<code>TcpServer</code>管理的，实际是设置的<code>setnewConnectionCallback</code>是<code>TcpServer::newConnection</code></p>
+<blockquote>
+<p><code>acceptChannel</code>注册在事件监听器<code>Poller</code>上，<code>acceptChannel</code>发生可读事件（即新用户连接）就会调用 <code>Acceptor::handleRead </code></p>
+<p><code>Acceptor::setReadCallback</code> &#x3D;&gt; <code>Acceptor::handleRead </code>&#x3D;&gt; <code>newConnectionCallback</code></p>
+<p>​																											||</p>
+<p>​																<code>TcpServer</code>的构造函数中设置了<code>acceptor-&gt;setnewConnectionCallback</code></p>
+<p>​																											||</p>
+<p>​																       实际上设置的就是<code>TcpServer::newConnection</code></p>
+<p>注册在<code>mainloop</code>中的<code>acceptor</code>，当有新用户连接到来，最终相应的是<code>TcpServer::newConnection</code></p>
+</blockquote>
+<p>而<code>TcpServer::newConnection()</code>实际是创建了一个<code>TcpConnection</code>的对象</p>
+<h2 id="start-方法调用"><a href="#start-方法调用" class="headerlink" title="start()方法调用"></a><code>start()</code>方法调用</h2><blockquote>
+<p><code>threadPool_-&gt;start(threadInitCallback_);</code> &#x2F;&#x2F; 启动底层的loop线程池</p>
+<p>​							||</p>
+<p>创建<code>loop</code>子线程并开启<code>loop.loop()</code>（子线程）</p>
+<p>执行<code>accept::listen()</code>方法，实际上就是将<code>accpetChannel</code>注册在<code>mainloop</code>的<code>Poller</code>上</p>
+</blockquote>
+<h2 id="开启mainloop的loop（为搭建服务器的最后一步"><a href="#开启mainloop的loop（为搭建服务器的最后一步" class="headerlink" title="开启mainloop的loop（为搭建服务器的最后一步)"></a>开启<code>mainloop</code>的<code>loop</code>（为搭建服务器的最后一步)</h2><h2 id="新用户连接到来"><a href="#新用户连接到来" class="headerlink" title="新用户连接到来"></a>新用户连接到来</h2><blockquote>
+<p><code>TcpServer::newConnection</code></p>
+<p>​				||</p>
+<p>根据轮询算法，选择一个<code>subLoop</code>，即<code>ioloop</code></p>
+<p>创建了一个<code>TcpConnection</code>对象，注册相应的回调（<code>close</code>的回调对应<code>TcpServer::removeConnection</code>）</p>
+<p>直接调用<code>TcpConnection::connectEstablished</code></p>
+<p><code> ioLoop-&gt;runInLoop</code> &#x3D;&gt; <code>TcpConnection::connectEstablished</code>,因为设置了子线程数量（如果没有设置子线程数量，之间在<code>mainloop</code>中执行），<code>runInLoop</code>实际调用的是<code>queueInLoop()</code>，执行<code>wakeup()</code>，通过<code>ioloop</code>的指针找到<code>wakeupfd</code>，向<code>wakeupfd</code>写一个数据，<code>wakeupChannel</code>就发生读事件，当前<code>loop</code>线程(即<code>ioloop</code>)就会被唤醒，唤醒后执行<code>connectEstablished()</code>。</p>
+<p>​				||</p>
+<p><code>TcpConnection::connectEstablished</code></p>
+<p>向<code>poller</code>注册<code>channel</code>的<code>epollin</code>事件，然后执行<code>connectionCallback</code>，对应的就是用户自定义的<code>onConnection</code>函数执行成功，就会有<code>socket</code>和<code>Channel</code>注册在这个<code>subloop</code>上</p>
+</blockquote>
+<h2 id="连接成功后，数据通信"><a href="#连接成功后，数据通信" class="headerlink" title="连接成功后，数据通信"></a>连接成功后，数据通信</h2><blockquote>
+<p>成功建立连接后<br>        ||<br>有可读事件到来，就会执行<code>Channel</code>中的<code>readCallback()</code>，而<code>readCallback()</code>是通过<code>setReadCallback</code>设置的，在<code>TcpConnection</code>中，<code>setReadCallback</code>绑定是<code>TcpConnection::handleRead</code></p>
+<p>​		||</p>
+<p>开始读数据，读完数据后，执行用户自定义的回调操作<code>onMessage</code>，然后就得到原始字符串，进行业务处理，业务处理完进行响应（如：回送消息）</p>
+</blockquote>
+<h2 id="连接关闭"><a href="#连接关闭" class="headerlink" title="连接关闭"></a>连接关闭</h2><blockquote>
+<p>通信异常或者对端关闭，底层<code>channel</code>都会触发<code>closeCallback</code>的回调，而<code>closeCallback()</code>是通过<code>setCloseCallback</code>设置的。在<code>TcpConnection</code>中，<code>setCloseCallback</code>绑定是<code>TcpConnection::handleClose</code></p>
+<p>​													||</p>
+<p><code>channel_-&gt;disableAll()</code>，将<code>chanel</code>所有感兴趣的事件，在<code>poller</code>上全部进行删除，然后执行用户的回调</p>
+<p>执行<code>closeCallback_(connPtr)</code>,关闭连接的回调  执行的是<code>TcpServer::removeConnection</code>回调方法</p>
+<p>​													||</p>
+<p>​	将保存所有的<code>TcpConnection</code>连接的<code>map</code>删除，然后获取这条连接对应的<code>ioloop</code>，然后执行<code>TcpConnection::connectDestroyed</code>，把<code>channel</code>从<code>poller</code>中删除掉</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>moduo</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>基于epoll的web服务器</title>
     <url>/2024/04/12/%E5%9F%BA%E4%BA%8Eepoll%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
     <content><![CDATA[<h2 id="基于epoll的web服务器-C语言版本"><a href="#基于epoll的web服务器-C语言版本" class="headerlink" title="基于epoll的web服务器(C语言版本)"></a>基于epoll的web服务器(C语言版本)</h2><h3 id="1-初始化监听套接字"><a href="#1-初始化监听套接字" class="headerlink" title="1. 初始化监听套接字"></a>1. 初始化监听套接字</h3><p>包括创建监听套接字，设置端口复用，绑定，设置监听等步骤</p>
