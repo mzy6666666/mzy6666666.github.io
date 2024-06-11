@@ -9,7 +9,7 @@
     
     <title>
         
-            muduo梳理 |
+            Raft算法 |
         
         Mzy&#39;s Blog
     </title>
@@ -208,7 +208,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        muduo梳理
+                        Raft算法
                     </div>
                 
 
@@ -236,12 +236,12 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-06-08 17:22:54</span>
+                <span class="datetime">2024-06-11 19:09:05</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Sat Jun 08 2024 17:23:26 GMT+0800">2024-06-08 17:23:26</span>
+                <span class="datetime" data-updated="Tue Jun 11 2024 19:10:13 GMT+0800">2024-06-11 19:10:13</span>
             </span>
         
 
@@ -260,7 +260,7 @@
             <span class="post-tag meta-info-item border-box">
                 <ul class="post-tag-ul">
                     
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/moduo/">moduo</a></li>
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Raft/">Raft</a></li>
                         
                     
                 </ul>
@@ -270,7 +270,7 @@
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>825 Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>904 Words</span>
             </span>
         
         
@@ -296,55 +296,42 @@
                 <div class="post-content keep-markdown-body">
                     
 
-                    <h1 id="Muduo梳理"><a href="#Muduo梳理" class="headerlink" title="Muduo梳理"></a><code>Muduo</code>梳理</h1><h2 id="使用Muduo搭建简单的服务器"><a href="#使用Muduo搭建简单的服务器" class="headerlink" title="使用Muduo搭建简单的服务器"></a>使用<code>Muduo</code>搭建简单的服务器</h2><ol>
-<li>建立事件循环器<code>EventLoop : loop</code></li>
-<li>建立服务器对象<code>TcpServer ：server</code></li>
-<li>向<code>TcpServer</code>中注册各类事件的用户自定义的回调函数：<code>onConnection</code>,<code>onMessage</code></li>
-<li>设置底层线程数量</li>
-<li>启动<code>start</code>函数，<code>server.start()</code></li>
-<li>开启主线程（<code>mainloop</code>)事件循环<code>loop.loop()</code></li>
-</ol>
-<h2 id="构建TCP对象"><a href="#构建TCP对象" class="headerlink" title="构建TCP对象"></a>构建TCP对象</h2><p>在<code>TcpServer</code>的构造函数中建立一个<code>Acceptor</code>的对象，在<code>Acceptor</code>的构造函数中创建了一个非阻塞的<code>listenfd</code>，并封装为<code>Channel</code>对象<code>acceptChannel</code>。在<code>Acceptor</code>构造函数中，给<code>acceptChannel</code>设置了一个<code>ReadCallback</code>回调，事件绑定了<code>handleread</code>。当有新用户连接到来时，<code>Poller</code>监听<code>channel</code>发生事件了，然后上报给<code>EventLoop</code>，通知<code>channel</code>处理相应的事件注册。在底层<code>Channel</code>中的<code>handleEvent</code>就会监控到<code>EPOLLIN</code>事件，并执行相应的<code>readCallback()</code>；而对于<code>acceptChannel</code>对应的<code>readCallback()</code>方法，就是执行<code>Accpetor::handleread()</code>，实际上是执行一个<code>newConnectionCallback_()</code>的回调，而<code>newConnectionCallback_()</code>是通过<code>setnewConnectionCallback</code>设置的，而<code>Acceptor</code>是由<code>TcpServer</code>管理的，实际是设置的<code>setnewConnectionCallback</code>是<code>TcpServer::newConnection</code></p>
+                    <h1 id="Raft算法"><a href="#Raft算法" class="headerlink" title="Raft算法"></a>Raft算法</h1><p>Raft 算法是一种可靠且易于理解的共识算法，适用于构建分布式系统。它通过领导者选举、日志复制和安全性保证来实现一致性。</p>
 <blockquote>
-<p><code>acceptChannel</code>注册在事件监听器<code>Poller</code>上，<code>acceptChannel</code>发生可读事件（即新用户连接）就会调用 <code>Acceptor::handleRead </code></p>
-<p><code>Acceptor::setReadCallback</code> &#x3D;&gt; <code>Acceptor::handleRead </code>&#x3D;&gt; <code>newConnectionCallback</code></p>
-<p>​																											||</p>
-<p>​																<code>TcpServer</code>的构造函数中设置了<code>acceptor-&gt;setnewConnectionCallback</code></p>
-<p>​																											||</p>
-<p>​																       实际上设置的就是<code>TcpServer::newConnection</code></p>
-<p>注册在<code>mainloop</code>中的<code>acceptor</code>，当有新用户连接到来，最终相应的是<code>TcpServer::newConnection</code></p>
+<p>Raft 算法中有三个角色：领导者（leader）、候选人（candidate）、跟随者（follower）。</p>
+<ul>
+<li><strong>领导者（leader）</strong>：负责处理客户端请求，并将日志复制到其他节点。</li>
+<li><strong>候选人（candidate）</strong>：是在选举过程中的临时角色，它负责发起选举并尝试成为新的领导者。</li>
+<li><strong>跟随者（follower）</strong>：只是被动地接受来自领导者的指令，并将日志复制到自己的日志中。</li>
+</ul>
 </blockquote>
-<p>而<code>TcpServer::newConnection()</code>实际是创建了一个<code>TcpConnection</code>的对象</p>
-<h2 id="start-方法调用"><a href="#start-方法调用" class="headerlink" title="start()方法调用"></a><code>start()</code>方法调用</h2><blockquote>
-<p><code>threadPool_-&gt;start(threadInitCallback_);</code> &#x2F;&#x2F; 启动底层的loop线程池</p>
-<p>​							||</p>
-<p>创建<code>loop</code>子线程并开启<code>loop.loop()</code>（子线程）</p>
-<p>执行<code>accept::listen()</code>方法，实际上就是将<code>accpetChannel</code>注册在<code>mainloop</code>的<code>Poller</code>上</p>
+<h2 id="领导者选举"><a href="#领导者选举" class="headerlink" title="领导者选举"></a>领导者选举</h2><ul>
+<li><code>raft</code>算法，当集群节点发现领导者故障下线，健康节点会重新选举，选出新的领导选举，由它去协调分布式系统操作。</li>
+<li><code>redis</code>哨兵选举策略与<code>raft</code>算法大同小异，都是通过（多轮）选举，选出票数超过半数（法定人数可配）的候选人作为领导选举。</li>
+<li>而 <code>redis</code>（哨兵）集群节点有三种角色：<code>master/slave/sentinel</code>，<code>sentinel</code>主要负责检测<code>master</code>故障，一旦发现<code>master</code>客观下线，<code>sentinel</code>马上进入 投票选举 环节，从多个<code>sentinel</code>节点中选出领导选举，由它去执行<code> master</code>的故障转移。</li>
+</ul>
+<blockquote>
+<p>master 主观下线 –&gt; master 客观下线 –&gt; 投票选举 leader –&gt; leader 执行故障转移</p>
 </blockquote>
-<h2 id="开启mainloop的loop（为搭建服务器的最后一步"><a href="#开启mainloop的loop（为搭建服务器的最后一步" class="headerlink" title="开启mainloop的loop（为搭建服务器的最后一步)"></a>开启<code>mainloop</code>的<code>loop</code>（为搭建服务器的最后一步)</h2><h2 id="新用户连接到来"><a href="#新用户连接到来" class="headerlink" title="新用户连接到来"></a>新用户连接到来</h2><blockquote>
-<p><code>TcpServer::newConnection</code></p>
-<p>​				||</p>
-<p>根据轮询算法，选择一个<code>subLoop</code>，即<code>ioloop</code></p>
-<p>创建了一个<code>TcpConnection</code>对象，注册相应的回调（<code>close</code>的回调对应<code>TcpServer::removeConnection</code>）</p>
-<p>直接调用<code>TcpConnection::connectEstablished</code></p>
-<p><code> ioLoop-&gt;runInLoop</code> &#x3D;&gt; <code>TcpConnection::connectEstablished</code>,因为设置了子线程数量（如果没有设置子线程数量，之间在<code>mainloop</code>中执行），<code>runInLoop</code>实际调用的是<code>queueInLoop()</code>，执行<code>wakeup()</code>，通过<code>ioloop</code>的指针找到<code>wakeupfd</code>，向<code>wakeupfd</code>写一个数据，<code>wakeupChannel</code>就发生读事件，当前<code>loop</code>线程(即<code>ioloop</code>)就会被唤醒，唤醒后执行<code>connectEstablished()</code>。</p>
-<p>​				||</p>
-<p><code>TcpConnection::connectEstablished</code></p>
-<p>向<code>poller</code>注册<code>channel</code>的<code>epollin</code>事件，然后执行<code>connectionCallback</code>，对应的就是用户自定义的<code>onConnection</code>函数执行成功，就会有<code>socket</code>和<code>Channel</code>注册在这个<code>subloop</code>上</p>
-</blockquote>
-<h2 id="连接成功后，数据通信"><a href="#连接成功后，数据通信" class="headerlink" title="连接成功后，数据通信"></a>连接成功后，数据通信</h2><blockquote>
-<p>成功建立连接后<br>        ||<br>有可读事件到来，就会执行<code>Channel</code>中的<code>readCallback()</code>，而<code>readCallback()</code>是通过<code>setReadCallback</code>设置的，在<code>TcpConnection</code>中，<code>setReadCallback</code>绑定是<code>TcpConnection::handleRead</code></p>
-<p>​		||</p>
-<p>开始读数据，读完数据后，执行用户自定义的回调操作<code>onMessage</code>，然后就得到原始字符串，进行业务处理，业务处理完进行响应（如：回送消息）</p>
-</blockquote>
-<h2 id="连接关闭"><a href="#连接关闭" class="headerlink" title="连接关闭"></a>连接关闭</h2><blockquote>
-<p>通信异常或者对端关闭，底层<code>channel</code>都会触发<code>closeCallback</code>的回调，而<code>closeCallback()</code>是通过<code>setCloseCallback</code>设置的。在<code>TcpConnection</code>中，<code>setCloseCallback</code>绑定是<code>TcpConnection::handleClose</code></p>
-<p>​													||</p>
-<p><code>channel_-&gt;disableAll()</code>，将<code>chanel</code>所有感兴趣的事件，在<code>poller</code>上全部进行删除，然后执行用户的回调</p>
-<p>执行<code>closeCallback_(connPtr)</code>,关闭连接的回调  执行的是<code>TcpServer::removeConnection</code>回调方法</p>
-<p>​													||</p>
-<p>​	将保存所有的<code>TcpConnection</code>连接的<code>map</code>删除，然后获取这条连接对应的<code>ioloop</code>，然后执行<code>TcpConnection::connectDestroyed</code>，把<code>channel</code>从<code>poller</code>中删除掉</p>
-</blockquote>
+<h2 id="日志复制"><a href="#日志复制" class="headerlink" title="日志复制"></a>日志复制</h2><ul>
+<li>raft 算法的数据复制是 <code>强一致性</code>，领导者接收客户端的请求，将日志复制到其他节点，并确保被复制节点上的数据日志顺序一致。</li>
+<li>当半数以上的其他节点成功接收日志，领导者才会确认该条日志提交成功，并修改其它节点上的日志状态为提交成功，通过这样的方式保证集群的数据一致性。</li>
+<li><code>redis</code>的数据复制是 <code>最终一致</code>，master 负责接收客户端的请求，将数据写入内存后，异步复制数据到 slave。</li>
+<li><code>slave</code>初始或断线重连<code>master</code>，发现数据不一致后，会根据 <code>slave</code>当前的数据偏移量或<code>master</code>节点 ID，向<code>master</code>实现增量同步或者全量同步。</li>
+<li>如果<code>slave</code>正常链接<code>master</code>，<code>master</code>数据发生变化会正常发送给对应<code>slave</code>，但不需要半数以上的<code>slave</code>节点确认接收才确认数据同步成功。</li>
+<li><code>redis</code>是高性能服务，它需要在保证性能的前提下进行数据复制，因此数据的 <code>最终一致</code> &lt; <code>强一致</code>。</li>
+</ul>
+<h2 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h2><ul>
+<li><p><code>raft</code>算法的日志复制是强一致，安全性明显要比<code>redis</code>要好。</p>
+</li>
+<li><p><code>raft</code>算法的领导选举，需要确保日志的<code>term</code>和日志的<code>index</code>最优的健康的节点当选领导者。</p>
+</li>
+<li><p><code>redis</code>数据复制是最终一致，<code>master</code>设置数据积压缓冲区和数据偏移量，与<code>slave</code>的数据量进行对比，进行数据复制实现最终一致。</p>
+</li>
+<li><p><code>redis master</code>故障下线后，<code>redis</code>哨兵重新选举，选出新的哨兵领导者。哨兵领导者在下线 <code>master </code>的 <code>slave </code>节点中筛选出最优（网络链接正常，优先级低，数据偏移量最大）的<code>slave</code>将其晋升为<code>master</code>。</p>
+</li>
+</ul>
+<h2 id="redis的高可用性"><a href="#redis的高可用性" class="headerlink" title="redis的高可用性"></a>redis的高可用性</h2><p><code>redis</code>用复制来解决可靠性，一份数据做多份冗余。但是，当<code>master</code>节点因为某种原因下线，还必须有一种机制能让<code>slave</code>节点自动地转化成<code>master</code>节点，对外提供写服务，保证系统的高可用性。<code>redis</code>的<code>sentinel</code>就是这样的一种机制。</p>
 
                 </div>
                 
@@ -353,11 +340,11 @@
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                muduo梳理
+                Raft算法
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2024/06/08/muduo梳理/
+                2024/06/11/Raft算法/
             </div>
         </div>
 
@@ -373,7 +360,7 @@
                 <div class="type">
                     Published
                 </div>
-                <div class="content">2024-06-08 17:22</div>
+                <div class="content">2024-06-11 19:09</div>
             </div>
 
 
@@ -409,7 +396,7 @@
                             <ul class="post-tags-box border-box">
                                 
                                     <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/moduo/">moduo</a>
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Raft/">Raft</a>
                                     </li>
                                 
                             </ul>
@@ -448,31 +435,15 @@
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2024/06/11/Redis%E5%85%A5%E9%97%A8/"
-                                   title="Redis入门"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Redis入门</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2024/06/06/moduo%E4%B9%8BBuffer/"
-                                   title="moduo之Buffer"
+                                   href="/2024/06/11/Redis%E5%85%A5%E9%97%A8/"
+                                   title="Redis入门"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">moduo之Buffer</span>
+                                        <span class="post-nav-title-item text-ellipsis">Redis入门</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
@@ -500,7 +471,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E6%A2%B3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Muduo梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Muduo%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">使用Muduo搭建简单的服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BATCP%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">构建TCP对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">start()方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFmainloop%E7%9A%84loop%EF%BC%88%E4%B8%BA%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">开启mainloop的loop（为搭建服务器的最后一步)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%94%A8%E6%88%B7%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9D%A5"><span class="nav-number">1.5.</span> <span class="nav-text">新用户连接到来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E5%90%8E%EF%BC%8C%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-number">1.6.</span> <span class="nav-text">连接成功后，数据通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD"><span class="nav-number">1.7.</span> <span class="nav-text">连接关闭</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Raft%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Raft算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BE"><span class="nav-number">1.1.</span> <span class="nav-text">领导者选举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">日志复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="nav-number">1.4.</span> <span class="nav-text">redis的高可用性</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -673,7 +644,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Muduo%E6%A2%B3%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Muduo梳理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Muduo%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">使用Muduo搭建简单的服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E5%BB%BATCP%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.2.</span> <span class="nav-text">构建TCP对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#start-%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">start()方法调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFmainloop%E7%9A%84loop%EF%BC%88%E4%B8%BA%E6%90%AD%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E6%AD%A5"><span class="nav-number">1.4.</span> <span class="nav-text">开启mainloop的loop（为搭建服务器的最后一步)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B0%E7%94%A8%E6%88%B7%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9D%A5"><span class="nav-number">1.5.</span> <span class="nav-text">新用户连接到来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E5%90%8E%EF%BC%8C%E6%95%B0%E6%8D%AE%E9%80%9A%E4%BF%A1"><span class="nav-number">1.6.</span> <span class="nav-text">连接成功后，数据通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E5%85%B3%E9%97%AD"><span class="nav-number">1.7.</span> <span class="nav-text">连接关闭</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Raft%E7%AE%97%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">Raft算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BE"><span class="nav-number">1.1.</span> <span class="nav-text">领导者选举</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">日志复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">安全性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#redis%E7%9A%84%E9%AB%98%E5%8F%AF%E7%94%A8%E6%80%A7"><span class="nav-number">1.4.</span> <span class="nav-text">redis的高可用性</span></a></li></ol></li></ol>
     </div>
 </div>
 
