@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            智能指针 |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        智能指针
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">筑基</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-18 11:00:36</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Tue Jun 18 2024 11:01:59 GMT+0800">2024-06-18 11:01:59</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/C-%E5%9F%BA%E7%A1%80/">C++基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">C++ 智能指针</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.8k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h1><h2 id="智能指针的作用"><a href="#智能指针的作用" class="headerlink" title="智能指针的作用"></a>智能指针的作用</h2><p> C++程序设计中使用堆内存是非常频繁的操作，堆内存的申请和释放都由程序员自己管理。程序员自己管理堆内存可以提高了程序的效率，但是整体来说堆内存的管理是麻烦的，C++11中引入了智能指针的概念，方便管理堆内存。使用普通指针，容易造成堆内存泄露（忘记释放），二次释放，程序发生异常时内存泄露等问题等，使用智能指针能更好的管理堆内存。</p>
+<p>理解智能指针需要从下面三个层次：</p>
+<ol>
+<li>从较浅的层面看，智能指针是利用了一种叫做<code>RAII</code>（资源获取即初始化）的技术对普通的指针进行封装，这使得智能指针实质是一个对象，行为表现的却像一个指针。</li>
+<li>智能指针的作用是<strong>防止忘记调用delete释放内存和程序异常的进入catch块忘记释放内存</strong>。另外指针的释放时机也是非常有考究的，多次释放同一个指针会造成程序崩溃，这些都可以通过智能指针来解决。</li>
+<li>智能指针还有一个作用是把值语义转换成引用语义</li>
+</ol>
+<h2 id="智能指针和管理的对象分别在哪个区"><a href="#智能指针和管理的对象分别在哪个区" class="headerlink" title="智能指针和管理的对象分别在哪个区"></a>智能指针和管理的对象分别在哪个区</h2><p>智能指针本身在栈区，托管的资源在堆区，利用了栈对象超出生命周期后自动析构的特征，所以无需手动delete释放资源。</p>
+<p>智能指针对象位于栈内存，管理一个堆内存的对象，当智能指针对象的生命周期结束后，会在析构函数中释放掉管理的堆内存资源，从而防止堆内存对象内存泄漏。</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/ce2c572fde6840209d1ba3ea4c157df5.png"  alt="img"></p>
+<h2 id="unique-ptr能否被另一个unique-ptr拷贝呢？"><a href="#unique-ptr能否被另一个unique-ptr拷贝呢？" class="headerlink" title="unique_ptr能否被另一个unique_ptr拷贝呢？"></a>unique_ptr能否被另一个unique_ptr拷贝呢？</h2><ul>
+<li>不能，因为它把它的拷贝构造函数<code>private</code>了。但是它提供了一个移动构造函数，所以可以通过<code>std::move</code>将指针指向的对象交给另一个<code>unique_ptr</code>，转交之后自己就失去了这个指针对象的所有权，除非被显示交回。</li>
+</ul>
+<h2 id="unique-ptr-unique-ptr和shared-ptr-shared-ptr这两个操作有什么后果呢？"><a href="#unique-ptr-unique-ptr和shared-ptr-shared-ptr这两个操作有什么后果呢？" class="headerlink" title="unique_ptr &#x3D; unique_ptr和shared_ptr&#x3D;shared_ptr这两个操作有什么后果呢？"></a>unique_ptr &#x3D; unique_ptr和shared_ptr&#x3D;shared_ptr这两个操作有什么后果呢？</h2><p>对于unique_ptr&#96; ：</p>
+<ul>
+<li>这个操作是不允许的，因为<code>unique_ptr</code>它的原理是将拷贝构造和拷贝赋值私有化，但是它提供了移动构造和移动赋值。所以如果你想要使用&#x3D;赋值，必须先把右边的用<code>std::move</code>包裹一下，这样右边的<code>unique_ptr</code>就会失去所有权，左边的<code>unique_ptr</code>就会得到对应对象的所有权</li>
+</ul>
+<p>至于<code>shared_ptr</code>：</p>
+<ul>
+<li>对于左边的指针，它会将自己的引用计数减一，然后检测一下是不是减到了0，如果是，那么<code>delete</code>所管理的对象</li>
+<li>然后将右边的引用计数和管理对象赋值给左边，此时两边指向同一个对象，共享同一个引用计数，然后引用计数++</li>
+</ul>
+<h2 id="shared-ptr的移动赋值时发生了什么事情"><a href="#shared-ptr的移动赋值时发生了什么事情" class="headerlink" title="shared_ptr的移动赋值时发生了什么事情"></a>shared_ptr的移动赋值时发生了什么事情</h2><ul>
+<li>首先它会检查本指针和参数指针是不是同一个对象，如果是，直接返回</li>
+<li>然后，先把本指针的引用变量–1，如果发现减到了0，就把参数指针和参数引用变量析构掉并置NULL</li>
+<li>最后，本指针和参数指针指向同一个对象以及引用计数，然后引用计数自增1</li>
+</ul>
+<h2 id="unique-ptr和shared-ptr的区别"><a href="#unique-ptr和shared-ptr的区别" class="headerlink" title="unique_ptr和shared_ptr的区别"></a>unique_ptr和shared_ptr的区别</h2><ul>
+<li><p><code>unique_ptr</code>代表的是专属所有权，不支持复制和赋值。但是可以移动</p>
+</li>
+<li><p><code>shared_ptr </code>代表的是共享所有权，<code>shared_ptr </code>是支持复制的和赋值以及移动的</p>
+</li>
+<li><p><code>unique_ptr </code>在默认情况下和裸指针的大小是一样的。<br>所以 内存上没有任何的额外消耗，性能是最优的，我们大多数场景下用到的应该都是<code> unique_ptr</code>。</p>
+</li>
+<li><p><code>shared_ptr </code>的内存占用是裸指针的两倍。因为除了要管理一个裸指针外，还要维护一个引用计数。因此相比于 <code>unique_ptr</code>, <code>shared_ptr</code> 的内存占用更高。在使用 <code>shared_ptr</code> 之前应该考虑，是否真的需要使用 <code>shared_ptr</code>, 而非 <code>unique_ptr</code>。</p>
+<h2 id="shared-ptr你是怎么实现的"><a href="#shared-ptr你是怎么实现的" class="headerlink" title="shared_ptr你是怎么实现的"></a>shared_ptr你是怎么实现的</h2><p><code>shared_ptr</code> 内部是利用引用计数来实现内存的自动管理，每当复制一个 <code>shared_ptr</code>，引用计数会 + 1。当一个 <code>shared_ptr</code>离开作用域时，引用计数会 - 1。当引用计数为 0 的时候，则 <code>delete</code> 内存。</p>
+<h2 id="shared-ptr是不是线程安全"><a href="#shared-ptr是不是线程安全" class="headerlink" title="shared_ptr是不是线程安全"></a>shared_ptr是不是线程安全</h2><ul>
+<li><p>不是</p>
+</li>
+<li><p>引用计数的增减是原子操作没问题，但是<code>shared_pytr</code>的读写本身不只包括引用计数操作，还包括资源所有权的操作，这两个操作合起来不是原子的</p>
+</li>
+<li><p>如果要求线程安全必须加锁</p>
+</li>
+<li><p><strong>资源所有权操作不是线程安全的</strong>：包括指针的赋值和删除操作，如果在多线程环境中使用，需要加锁保护。</p>
+<p><strong>加锁保护资源所有权操作</strong>：在多线程环境中对 <code>shared_ptr</code> 的赋值或修改操作应使用互斥锁（如 <code>std::mutex</code>）来保护，以确保线程安全。</p>
+</li>
+</ul>
+<h2 id="weak-ptr如何检测指针是否被销毁"><a href="#weak-ptr如何检测指针是否被销毁" class="headerlink" title="weak_ptr如何检测指针是否被销毁"></a>weak_ptr如何检测指针是否被销毁</h2><p><code>expired()</code>：</p>
+<ul>
+<li>判断强引用计数是否为0</li>
+<li>如果返回true，那么被观测的对象(也就是<code>shared_ptr</code>管理的资源)已经不存在了</li>
+</ul>
+<h2 id="如何将weak-ptr转换为shared-ptr"><a href="#如何将weak-ptr转换为shared-ptr" class="headerlink" title="如何将weak_ptr转换为shared_ptr"></a>如何将weak_ptr转换为shared_ptr</h2><p>用<code>lock()</code>:</p>
+<ul>
+<li>如果<code>expired()</code>为true，返回一个空<code>shared_ptr</code>，否则返回非空<code>shared_ptr</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="智能指针的设计与实现"><a href="#智能指针的设计与实现" class="headerlink" title="智能指针的设计与实现"></a>智能指针的设计与实现</h2><blockquote>
+<p>智能指针类将一个计数器与类指向的对象相关联，引用计数跟踪该类有多少个对象共享同一指针。每次创建类的新对象时，初始化指针并将引用计数置为1；当对象作为另一对象的副本而创建时，拷贝构造函数拷贝指针并增加与之相应的引用计数；对一个对象进行赋值时，赋值操作符减少左操作数所指对象的引用计数（如果引用计数为减至0，则删除对象），并增加右操作数所指对象的引用计数；调用析构函数时，构造函数减少引用计数（如果引用计数减至0，则删除基础对象）。智能指针就是模拟指针动作的类。所有的智能指针都会重载 -&gt; 和 * 操作符。智能指针还有许多其他功能，比较有用的是自动销毁。这主要是利用栈对象的有限作用域以及临时对象（有限作用域实现）析构函数释放内存。</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SmartPointer</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    T* _ptr;</span><br><span class="line">    atomic_int* _count;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">SmartPointer</span>(T* ptr = <span class="literal">nullptr</span>) :</span><br><span class="line">            _ptr(ptr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (_ptr) &#123;</span><br><span class="line">            _count = <span class="keyword">new</span> <span class="built_in">size_t</span>(<span class="number">1</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            _count = <span class="keyword">new</span> <span class="built_in">size_t</span>(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 拷贝构造函数</span></span><br><span class="line">    <span class="built_in">SmartPointer</span>(<span class="type">const</span> SmartPointer&amp; ptr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> != &amp;ptr) &#123;</span><br><span class="line">            <span class="keyword">this</span>-&gt;_ptr = ptr._ptr;</span><br><span class="line">            <span class="keyword">this</span>-&gt;_count = ptr._count;</span><br><span class="line">            (*<span class="keyword">this</span>-&gt;_count)++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">//拷贝赋值</span></span><br><span class="line">    SmartPointer&amp; <span class="keyword">operator</span>=(<span class="type">const</span> SmartPointer&amp; ptr) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;_ptr == ptr._ptr) &#123;</span><br><span class="line">            <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;_ptr) &#123;</span><br><span class="line">            (*<span class="keyword">this</span>-&gt;_count)--;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">this</span>-&gt;_count == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">delete</span> <span class="keyword">this</span>-&gt;_ptr;</span><br><span class="line">                <span class="keyword">delete</span> <span class="keyword">this</span>-&gt;_count;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>-&gt;_ptr = ptr._ptr;</span><br><span class="line">        <span class="keyword">this</span>-&gt;_count = ptr._count;</span><br><span class="line">        (*<span class="keyword">this</span>-&gt;_count)++;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"><span class="comment">// 解引用</span></span><br><span class="line">    T&amp; <span class="keyword">operator</span>*() &#123;</span><br><span class="line">        <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;_ptr != <span class="literal">nullptr</span>); <span class="comment">// 断言指针不为空</span></span><br><span class="line">        <span class="keyword">return</span> *(<span class="keyword">this</span>-&gt;_ptr);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    T* <span class="keyword">operator</span>-&gt;() &#123;</span><br><span class="line">        <span class="built_in">assert</span>(<span class="keyword">this</span>-&gt;_ptr == <span class="literal">nullptr</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>-&gt;_ptr;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ~<span class="built_in">SmartPointer</span>() &#123;</span><br><span class="line">        (*<span class="keyword">this</span>-&gt;_count)--;</span><br><span class="line">        <span class="keyword">if</span> (*<span class="keyword">this</span>-&gt;_count == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">delete</span> <span class="keyword">this</span>-&gt;_ptr;</span><br><span class="line">            <span class="keyword">delete</span> <span class="keyword">this</span>-&gt;_count;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">size_t</span> <span class="title">use_count</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> *<span class="keyword">this</span>-&gt;_count;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function">SmartPointer&lt;<span class="type">int</span>&gt; <span class="title">sp</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">10</span>))</span></span>;</span><br><span class="line">        <span class="function">SmartPointer&lt;<span class="type">int</span>&gt; <span class="title">sp2</span><span class="params">(sp)</span></span>;</span><br><span class="line">        <span class="function">SmartPointer&lt;<span class="type">int</span>&gt; <span class="title">sp3</span><span class="params">(<span class="keyword">new</span> <span class="type">int</span>(<span class="number">20</span>))</span></span>;</span><br><span class="line">        sp2 = sp3;</span><br><span class="line">        std::cout &lt;&lt; sp.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">        std::cout &lt;&lt; sp3.<span class="built_in">use_count</span>() &lt;&lt; std::endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//delete operator</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="shared-ptr"><a href="#shared-ptr" class="headerlink" title="shared_ptr"></a>shared_ptr</h2><p><code>shared_ptr</code>使用了引用计数，每一个<code>shared_ptr</code>的拷贝都指向相同的内存，每次拷贝都会触发引用计数+1，每次生命周期结束析构的时候引用计数-1，在最后一个<code>shared_ptr</code>析构的时候，内存才会释放。</p>
+<p>关于<code>shared_ptr</code>有几点需要注意：</p>
+<p>• 不要用一个裸指针初始化多个<code>shared_ptr</code>，会出现<code>double_free</code>导致程序崩溃</p>
+<p>• 通过<code>shared_from_this()</code>返回<code>this</code>指针，不要把<code>this</code>指针作为<code>shared_ptr</code>返回出来，因为<code>this</code>指针本质就是裸指针，通过<code>this</code>返回可能会导致重复析构，不能把<code>this</code>指针交给智能指针管理。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    <span class="function">shared_ptr&lt;A&gt; <span class="title">GetSelf</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">shared_from_this</span>();</span><br><span class="line">        <span class="comment">// return shared_ptr&lt;A&gt;(this); 错误，会导致double free</span></span><br><span class="line">    &#125;  </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>尽量使用<code>make_shared</code>，少用<code>new</code>。</li>
+<li>不要<code>delete get()</code>返回来的裸指针。</li>
+<li>不是<code>new</code>出来的空间要自定义删除器。</li>
+<li>要避免循环引用，循环引用导致内存永远不会被释放，造成内存泄漏。</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">ClassWrapper</span> &#123;</span><br><span class="line">    <span class="built_in">ClassWrapper</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;construct&quot;</span> &lt;&lt; endl;</span><br><span class="line">        data = <span class="keyword">new</span> <span class="type">int</span>[<span class="number">10</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    ~<span class="built_in">ClassWrapper</span>() &#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;deconstruct&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="keyword">delete</span>[] data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">Print</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;print&quot;</span> &lt;&lt; endl;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">int</span>* data;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Func</span><span class="params">(std::shared_ptr&lt;ClassWrapper&gt; ptr)</span> </span>&#123;</span><br><span class="line">    ptr-&gt;<span class="built_in">Print</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">auto</span> smart_ptr = std::<span class="built_in">make_shared</span>&lt;ClassWrapper&gt;();</span><br><span class="line">    <span class="keyword">auto</span> ptr2 = smart_ptr; <span class="comment">// 引用计数+1</span></span><br><span class="line">    ptr2-&gt;<span class="built_in">Print</span>();</span><br><span class="line">    <span class="built_in">Func</span>(smart_ptr); <span class="comment">// 引用计数+1</span></span><br><span class="line">    smart_ptr-&gt;<span class="built_in">Print</span>();</span><br><span class="line">    ClassWrapper *p = smart_ptr.<span class="built_in">get</span>(); <span class="comment">// 可以通过get获取裸指针</span></span><br><span class="line">    p-&gt;<span class="built_in">Print</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">construct</span><br><span class="line">print</span><br><span class="line">print</span><br><span class="line">print</span><br><span class="line">print</span><br><span class="line">deconstruct</span><br></pre></td></tr></table></figure>
+
+<h2 id="weak-ptr"><a href="#weak-ptr" class="headerlink" title="weak_ptr"></a>weak_ptr</h2><p><code>weak_ptr</code>是用来监视<code>shared_ptr</code>的生命周期，它不管理<code>shared_ptr</code>内部的指针，它的拷贝的析构都不会影响引用计数，纯粹是作为一个旁观者监视<code>shared_ptr</code>中管理的资源是否存在，可以用来返回<code>this</code>指针和解决循环引用问题。</p>
+<ul>
+<li>作用1：返回<code>this</code>指针，上面介绍的<code>shared_from_this()</code>其实就是通过<code>weak_ptr</code>返回的<code>this</code>指针。</li>
+<li>作用2：解决循环引用问题。</li>
+</ul>
+<p>空悬指针问题：有两个指针<code>p1</code>和<code>p2</code>，指向堆上的同一个对象<code>Object</code>，<code>p1</code>和<code>p2</code>位于不同的线程中。假设线程A通过p1指针将对象销毁了（尽管把<code>p1</code>置为了NULL），那<code>p2</code>就成了空悬指针。</p>
+<p><code>weak_ptr</code>不控制对象的生命期，但是它知道对象是否还活着。如果对象还活着，那么它可以提升为有效的<code>shared_ptr</code>（提升操作通过<code>lock()</code>函数获取所管理对象的强引用指针）；如果对象已经死了，提升会失败，返回一个空的<code>shared_ptr</code>。</p>
+<blockquote>
+<p>1）operator&#x3D;()：重载 &#x3D; 赋值运算符，是的 weak_ptr 指针可以直接被 weak_ptr 或者 shared_ptr 类型指针赋值。<br>2）swap(x)：其中 x 表示一个同类型的 weak_ptr 类型指针，该函数可以互换 2 个同类型 weak_ptr 指针的内容。<br>3）reset()：将当前 weak_ptr 指针置为空指针。<br>4）use_count()：查看指向和当前 weak_ptr 指针相同的 shared_ptr 指针的数量。<br>5）expired()：判断当前 weak_ptr 指针为否过期（指针为空，或者指向的堆内存已经被释放）。<br>6）lock()：如果当前 weak_ptr 已经过期，则该函数会返回一个空的 shared_ptr 指针；反之，该函数返回一个和当前 weak_ptr 指向相同的 shared_ptr 指针。</p>
+</blockquote>
+<h2 id="unique-ptr"><a href="#unique-ptr" class="headerlink" title="unique_ptr"></a>unique_ptr</h2><p><code>std::unique_ptr</code>是一个独占型的智能指针，它不允许其它智能指针共享其内部指针，也不允许<code>unique_ptr</code>的拷贝和赋值。使用方法和<code>shared_ptr</code>类似，区别是不可以拷贝</p>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                智能指针
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/18/智能指针/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-18 11:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/C-%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88/">C++ 智能指针</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/11/Raft%E7%AE%97%E6%B3%95/"
+                                   title="Raft算法"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Raft算法</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">智能指针</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">智能指针的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%92%8C%E7%AE%A1%E7%90%86%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%86%E5%88%AB%E5%9C%A8%E5%93%AA%E4%B8%AA%E5%8C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">智能指针和管理的对象分别在哪个区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr%E8%83%BD%E5%90%A6%E8%A2%AB%E5%8F%A6%E4%B8%80%E4%B8%AAunique-ptr%E6%8B%B7%E8%B4%9D%E5%91%A2%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">unique_ptr能否被另一个unique_ptr拷贝呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr-unique-ptr%E5%92%8Cshared-ptr-shared-ptr%E8%BF%99%E4%B8%A4%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%9C%89%E4%BB%80%E4%B9%88%E5%90%8E%E6%9E%9C%E5%91%A2%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">unique_ptr &#x3D; unique_ptr和shared_ptr&#x3D;shared_ptr这两个操作有什么后果呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%B5%8B%E5%80%BC%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%E4%BA%8B%E6%83%85"><span class="nav-number">1.5.</span> <span class="nav-text">shared_ptr的移动赋值时发生了什么事情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr%E5%92%8Cshared-ptr%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.6.</span> <span class="nav-text">unique_ptr和shared_ptr的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">1.7.</span> <span class="nav-text">shared_ptr你是怎么实现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E6%98%AF%E4%B8%8D%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">1.8.</span> <span class="nav-text">shared_ptr是不是线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weak-ptr%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%8C%87%E9%92%88%E6%98%AF%E5%90%A6%E8%A2%AB%E9%94%80%E6%AF%81"><span class="nav-number">1.9.</span> <span class="nav-text">weak_ptr如何检测指针是否被销毁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86weak-ptr%E8%BD%AC%E6%8D%A2%E4%B8%BAshared-ptr"><span class="nav-number">1.10.</span> <span class="nav-text">如何将weak_ptr转换为shared_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.11.</span> <span class="nav-text">智能指针的设计与实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr"><span class="nav-number">1.12.</span> <span class="nav-text">shared_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weak-ptr"><span class="nav-number">1.13.</span> <span class="nav-text">weak_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr"><span class="nav-number">1.14.</span> <span class="nav-text">unique_ptr</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88"><span class="nav-number">1.</span> <span class="nav-text">智能指针</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">智能指针的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E5%92%8C%E7%AE%A1%E7%90%86%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%86%E5%88%AB%E5%9C%A8%E5%93%AA%E4%B8%AA%E5%8C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">智能指针和管理的对象分别在哪个区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr%E8%83%BD%E5%90%A6%E8%A2%AB%E5%8F%A6%E4%B8%80%E4%B8%AAunique-ptr%E6%8B%B7%E8%B4%9D%E5%91%A2%EF%BC%9F"><span class="nav-number">1.3.</span> <span class="nav-text">unique_ptr能否被另一个unique_ptr拷贝呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr-unique-ptr%E5%92%8Cshared-ptr-shared-ptr%E8%BF%99%E4%B8%A4%E4%B8%AA%E6%93%8D%E4%BD%9C%E6%9C%89%E4%BB%80%E4%B9%88%E5%90%8E%E6%9E%9C%E5%91%A2%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">unique_ptr &#x3D; unique_ptr和shared_ptr&#x3D;shared_ptr这两个操作有什么后果呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E7%9A%84%E7%A7%BB%E5%8A%A8%E8%B5%8B%E5%80%BC%E6%97%B6%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%E4%BA%8B%E6%83%85"><span class="nav-number">1.5.</span> <span class="nav-text">shared_ptr的移动赋值时发生了什么事情</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr%E5%92%8Cshared-ptr%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.6.</span> <span class="nav-text">unique_ptr和shared_ptr的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">1.7.</span> <span class="nav-text">shared_ptr你是怎么实现的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr%E6%98%AF%E4%B8%8D%E6%98%AF%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">1.8.</span> <span class="nav-text">shared_ptr是不是线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weak-ptr%E5%A6%82%E4%BD%95%E6%A3%80%E6%B5%8B%E6%8C%87%E9%92%88%E6%98%AF%E5%90%A6%E8%A2%AB%E9%94%80%E6%AF%81"><span class="nav-number">1.9.</span> <span class="nav-text">weak_ptr如何检测指针是否被销毁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86weak-ptr%E8%BD%AC%E6%8D%A2%E4%B8%BAshared-ptr"><span class="nav-number">1.10.</span> <span class="nav-text">如何将weak_ptr转换为shared_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E6%8C%87%E9%92%88%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.11.</span> <span class="nav-text">智能指针的设计与实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shared-ptr"><span class="nav-number">1.12.</span> <span class="nav-text">shared_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weak-ptr"><span class="nav-number">1.13.</span> <span class="nav-text">weak_ptr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unique-ptr"><span class="nav-number">1.14.</span> <span class="nav-text">unique_ptr</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
