@@ -799,6 +799,49 @@
       </tags>
   </entry>
   <entry>
+    <title>UML类图</title>
+    <url>/2024/06/18/UML%E7%B1%BB%E5%9B%BE/</url>
+    <content><![CDATA[<h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><blockquote>
+<p><strong>类图基础属性</strong></p>
+<p>+表示public</p>
+<p>-表示private</p>
+<p>#表示protected</p>
+<p>~表示default</p>
+<p>_表示static</p>
+<p>斜体表示抽象</p>
+<p><strong>类图之间关系</strong></p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607165802362.png"  alt="image-20240607165802362"></p>
+<ol>
+<li><p>继承：继承表示是一个类（称为子类、子接口）继承另外的一个类（称为父类、父接口）的功能，并可以增加它自己的新功能的能力。</p>
+<p>表示方法：继承使用空心三角形+实线表示。</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170103069.png"  alt="image-20240607170103069"></p>
+</li>
+<li><p>实现：实现表示一个class类实现<code>interface</code>接口（可以是多个）的功能。</p>
+<p>表示方法：使用空心三角形+虚线表示</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170209590.png"  alt="image-20240607170209590"></p>
+</li>
+<li><p>依赖：对于两个相对独立的对象，当一个对象负责构造另一个对象的实例，或者依赖另一个对象的服务时，这两个对象之间主要体现为依赖关系。<br>表示方法：依赖关系用虚线箭头表示</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170316317.png"  alt="image-20240607170316317"></p>
+</li>
+<li><p>关联：对于两个相对独立的对象，当一个对象的实例与另一个对象的一些特定实例存在固定的对应关系时，这两个对象之间为关联关系。</p>
+<p>表示方法：关联关系用实线箭头表示</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170403521.png"  alt="image-20240607170403521"></p>
+</li>
+<li><p>聚合：表示一种弱的‘拥有’关系，即<code>has-a</code>的关系，体现的是A对象可以包含B对象，但B对象不是A对象的一部分。 两个对象具有各自的生命周期。</p>
+<p>表示方法：聚合关系用空心的菱形+实线箭头表示</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170518709.png"  alt="image-20240607170518709"></p>
+</li>
+<li><p>组合：组合是一种强的‘拥有’关系，是一种<code>contains-a</code>的关系，体现了严格的部分和整体关系，部分和整体的生命周期一样。<br>表示方法：组合关系用实心的菱形+实线箭头表示，还可以使用连线两端的数字表示某一端有几个实例</p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170613673.png"  alt="image-20240607170613673"></p>
+</li>
+</ol>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>uml</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>moduo之Buffer</title>
     <url>/2024/06/06/moduo%E4%B9%8BBuffer/</url>
     <content><![CDATA[<h1 id="Muduo中的Buffer"><a href="#Muduo中的Buffer" class="headerlink" title="Muduo中的Buffer"></a>Muduo中的Buffer</h1><p><code>Buffer</code>类其实是封装了一个用户缓冲区，以及向这个缓冲区写数据读数据等一系列控制方法。</p>
