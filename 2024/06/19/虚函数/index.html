@@ -9,7 +9,7 @@
     
     <title>
         
-            UML类图 |
+            虚函数 |
         
         Mzy&#39;s Blog
     </title>
@@ -208,7 +208,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        UML类图
+                        虚函数
                     </div>
                 
 
@@ -236,22 +236,31 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-06-18 14:48:20</span>
+                <span class="datetime">2024-06-19 10:28:48</span>
             </span>
 
             <span class="meta-info-item post-update-date">
                 <i class="icon fa-solid fa-file-pen"></i>&nbsp;
-                <span class="datetime" data-updated="Tue Jun 18 2024 14:49:14 GMT+0800">2024-06-18 14:49:14</span>
+                <span class="datetime" data-updated="Wed Jun 19 2024 10:29:36 GMT+0800">2024-06-19 10:29:36</span>
             </span>
         
 
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/C-%E5%9F%BA%E7%A1%80/">C++基础</a></li>
+                        
+                    
+                </ul>
+            </span>
         
 
         
             <span class="post-tag meta-info-item border-box">
                 <ul class="post-tag-ul">
                     
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/uml/">uml</a></li>
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/C-%E8%99%9A%E5%87%BD%E6%95%B0/">C++ 虚函数</a></li>
                         
                     
                 </ul>
@@ -261,12 +270,12 @@
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>449 Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>997 Words</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>1 Mins</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>3 Mins</span>
             </span>
         
         
@@ -287,41 +296,38 @@
                 <div class="post-content keep-markdown-body">
                     
 
-                    <h2 id="UML类图"><a href="#UML类图" class="headerlink" title="UML类图"></a>UML类图</h2><blockquote>
-<p><strong>类图基础属性</strong></p>
-<p>+表示public</p>
-<p>-表示private</p>
-<p>#表示protected</p>
-<p>~表示default</p>
-<p>_表示static</p>
-<p>斜体表示抽象</p>
-<p><strong>类图之间关系</strong></p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607165802362.png"  alt="image-20240607165802362"></p>
-<ol>
-<li><p>继承：继承表示是一个类（称为子类、子接口）继承另外的一个类（称为父类、父接口）的功能，并可以增加它自己的新功能的能力。</p>
-<p>表示方法：继承使用空心三角形+实线表示。</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170103069.png"  alt="image-20240607170103069"></p>
-</li>
-<li><p>实现：实现表示一个class类实现<code>interface</code>接口（可以是多个）的功能。</p>
-<p>表示方法：使用空心三角形+虚线表示</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170209590.png"  alt="image-20240607170209590"></p>
-</li>
-<li><p>依赖：对于两个相对独立的对象，当一个对象负责构造另一个对象的实例，或者依赖另一个对象的服务时，这两个对象之间主要体现为依赖关系。<br>表示方法：依赖关系用虚线箭头表示</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170316317.png"  alt="image-20240607170316317"></p>
-</li>
-<li><p>关联：对于两个相对独立的对象，当一个对象的实例与另一个对象的一些特定实例存在固定的对应关系时，这两个对象之间为关联关系。</p>
-<p>表示方法：关联关系用实线箭头表示</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170403521.png"  alt="image-20240607170403521"></p>
-</li>
-<li><p>聚合：表示一种弱的‘拥有’关系，即<code>has-a</code>的关系，体现的是A对象可以包含B对象，但B对象不是A对象的一部分。 两个对象具有各自的生命周期。</p>
-<p>表示方法：聚合关系用空心的菱形+实线箭头表示</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170518709.png"  alt="image-20240607170518709"></p>
-</li>
-<li><p>组合：组合是一种强的‘拥有’关系，是一种<code>contains-a</code>的关系，体现了严格的部分和整体关系，部分和整体的生命周期一样。<br>表示方法：组合关系用实心的菱形+实线箭头表示，还可以使用连线两端的数字表示某一端有几个实例</p>
-<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240607170613673.png"  alt="image-20240607170613673"></p>
-</li>
+                    <h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><h3 id="什么是虚函数"><a href="#什么是虚函数" class="headerlink" title="什么是虚函数"></a>什么是虚函数</h3><p>虚函数是在基类中声明的，而在派生类中进行重写的函数。通过使用<code>virtual</code>关键字声明一个函数为虚函数，它使得在运行时能够动态地确定调用的是哪个版本的函数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">show</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Base class\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="type">void</span> <span class="title">show</span><span class="params">()</span> <span class="keyword">override</span> </span>&#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Derived class\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="虚函数的作用"><a href="#虚函数的作用" class="headerlink" title="虚函数的作用"></a><strong>虚函数的作用</strong></h3><ul>
+<li>实现多态性（Polymorphism）：允许通过基类指针或引用调用派生类对象的函数，根据实际对象的类型选择相应的函数实现。</li>
+<li>运行时绑定（Runtime Binding）：虚函数通过表格（虚函数表）的方式实现，使得在运行时动态地绑定函数调用。</li>
+</ul>
+<h3 id="虚函数表（vtable）"><a href="#虚函数表（vtable）" class="headerlink" title="虚函数表（vtable）"></a><strong>虚函数表（vtable）</strong></h3><p>每个含有虚函数的类都有一个虚函数表，其中<strong>存储了虚函数的地址</strong>。对象的内存布局中包含一个指向虚函数表的指针。派生类的虚函数表包含基类的虚函数表，并在适当的位置添加或替换新的虚函数地址。</p>
+<h3 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a><strong>纯虚函数</strong></h3><p><strong>纯虚函数是一个在基类中声明但没有提供实现的虚函数</strong>，它通过在声明中使用<code>= 0</code>来标识。类含有纯虚函数的类被称为<strong>抽象类</strong>，不能被实例化。派生类必须实现纯虚函数，否则也会变为抽象类。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AbstractBase</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="type">void</span> <span class="title">pureVirtualFunction</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a><strong>虚析构函数</strong></h3><p>如果基类的析构函数是虚函数，当通过基类指针删除派生类对象时，会调用派生类的析构函数。这是为了确保正确的对象销毁。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Base</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">virtual</span> ~<span class="built_in">Base</span>() &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Base destructor\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Derived</span> : <span class="keyword">public</span> Base &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ~<span class="built_in">Derived</span>() <span class="keyword">override</span> &#123;</span><br><span class="line">        std::cout &lt;&lt; <span class="string">&quot;Derived destructor\n&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/2021032617400189.png"  alt="img"></p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240612122221519.png"  alt="image-20240612122221519"></p>
+<h3 id="构造函数可以是虚函数吗？析构函数呢？"><a href="#构造函数可以是虚函数吗？析构函数呢？" class="headerlink" title="构造函数可以是虚函数吗？析构函数呢？"></a>构造函数可以是虚函数吗？析构函数呢？</h3><p><strong>C++中，构造函数不可以是虚函数，而析构函数可以且常常是虚函数。</strong></p>
+<p>从存储空间角度，虚函数相应一个指向vtable虚函数表的指针，但是这个指向vtable的指针事实上是存储在对象的内存空间的。假设构造函数是虚的，就须要通过 vtable来调用，但是<strong>对象</strong>还<strong>没有实例化</strong>，也就是<strong>内存空间</strong>还<strong>没有</strong>，找不到<strong>vtable</strong></p>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/20210303163930516.png"  alt="img"></p>
+<h3 id="在析构函数中写delete-this可以吗？在类中的其他函数中写呢？"><a href="#在析构函数中写delete-this可以吗？在类中的其他函数中写呢？" class="headerlink" title="在析构函数中写delete this可以吗？在类中的其他函数中写呢？"></a>在析构函数中写delete this可以吗？在类中的其他函数中写呢？</h3><p><strong>this指针</strong>：当一个对象声明时，系统会为这个对象分配一块内存空间，this指针指向这块内存空间，这块空间里面存着对象的数据成员和虚函数表指针。</p>
+<p><strong>使用delete的时候</strong>：第一步，针对此内存会有一个（或更多）析构函数被调用，第二步才会释放该内存。</p>
+<p><strong>在成员函数中调用delete this，会导致指针错误，而在析构函数中调用delete this，出导致死循环，造成堆栈溢出。</strong></p>
+<p><strong>指针大小只与操作系统位数相关，如64位机器，为8字节</strong></p>
+<h3 id="哪些函数不能为虚函数"><a href="#哪些函数不能为虚函数" class="headerlink" title="哪些函数不能为虚函数?"></a>哪些函数不能为虚函数?</h3><p>构造函数、静态函数、友元函数、内联函数</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><ol>
+<li><strong>派生类对象初始化先调用基类构造再调派生类构造</strong>。</li>
+<li><strong>派生类对象析构清理先调用派生类析构再调基类的析构</strong>。</li>
 </ol>
-</blockquote>
+<p><img   src="https://mzy777.oss-cn-hangzhou.aliyuncs.com/img/image-20240415195059387.png"  alt="image-20240415195059387"></p>
+<p>⭕<strong>基类定义了<code>static</code>静态成员，则整个继承体系里面只有一个这样的成员。无论派生出多少个子类，都只有一个<code>static</code>成员实例</strong> 。</p>
+<h3 id="虚析构函数的作用"><a href="#虚析构函数的作用" class="headerlink" title="虚析构函数的作用"></a>虚析构函数的作用</h3><p>虚析构函数使得在<strong>删除指向子类对象的基类指针</strong>时可以<strong>调用子类的析构函数</strong>达到释放子类中堆内存的目的，而防止内存泄露的。</p>
+<p><strong>C++虚函数表保存在.rdata只读数据段</strong></p>
 
                 </div>
                 
@@ -330,11 +336,11 @@
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                UML类图
+                虚函数
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2024/06/18/UML类图/
+                2024/06/19/虚函数/
             </div>
         </div>
 
@@ -350,7 +356,7 @@
                 <div class="type">
                     Published
                 </div>
-                <div class="content">2024-06-18 14:48</div>
+                <div class="content">2024-06-19 10:28</div>
             </div>
 
 
@@ -386,7 +392,7 @@
                             <ul class="post-tags-box border-box">
                                 
                                     <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/uml/">uml</a>
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/C-%E8%99%9A%E5%87%BD%E6%95%B0/">C++ 虚函数</a>
                                     </li>
                                 
                             </ul>
@@ -425,31 +431,15 @@
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2024/06/19/%E8%99%9A%E5%87%BD%E6%95%B0/"
-                                   title="虚函数"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">虚函数</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2024/06/18/Nginx%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/"
-                                   title="Nginx入门笔记"
+                                   href="/2024/06/18/UML%E7%B1%BB%E5%9B%BE/"
+                                   title="UML类图"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Nginx入门笔记</span>
+                                        <span class="post-nav-title-item text-ellipsis">UML类图</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
@@ -477,7 +467,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">UML类图</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">虚函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">什么是虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">虚函数的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%EF%BC%88vtable%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">虚函数表（vtable）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">纯虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.</span> <span class="nav-text">虚析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%91%A2%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">构造函数可以是虚函数吗？析构函数呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E5%86%99delete-this%E5%8F%AF%E4%BB%A5%E5%90%97%EF%BC%9F%E5%9C%A8%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0%E4%B8%AD%E5%86%99%E5%91%A2%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">在析构函数中写delete this可以吗？在类中的其他函数中写呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0%E4%B8%8D%E8%83%BD%E4%B8%BA%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">哪些函数不能为虚函数?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.9.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.10.</span> <span class="nav-text">虚析构函数的作用</span></a></li></ol></li></ol>
     </div>
 </div>
 
@@ -650,7 +640,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UML%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">UML类图</span></a></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">虚函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">什么是虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">虚函数的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E5%87%BD%E6%95%B0%E8%A1%A8%EF%BC%88vtable%EF%BC%89"><span class="nav-number">1.3.</span> <span class="nav-text">虚函数表（vtable）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">纯虚函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.5.</span> <span class="nav-text">虚析构函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E6%98%AF%E8%99%9A%E5%87%BD%E6%95%B0%E5%90%97%EF%BC%9F%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E5%91%A2%EF%BC%9F"><span class="nav-number">1.6.</span> <span class="nav-text">构造函数可以是虚函数吗？析构函数呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E4%B8%AD%E5%86%99delete-this%E5%8F%AF%E4%BB%A5%E5%90%97%EF%BC%9F%E5%9C%A8%E7%B1%BB%E4%B8%AD%E7%9A%84%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0%E4%B8%AD%E5%86%99%E5%91%A2%EF%BC%9F"><span class="nav-number">1.7.</span> <span class="nav-text">在析构函数中写delete this可以吗？在类中的其他函数中写呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E5%87%BD%E6%95%B0%E4%B8%8D%E8%83%BD%E4%B8%BA%E8%99%9A%E5%87%BD%E6%95%B0"><span class="nav-number">1.8.</span> <span class="nav-text">哪些函数不能为虚函数?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.9.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%9E%90%E6%9E%84%E5%87%BD%E6%95%B0%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.10.</span> <span class="nav-text">虚析构函数的作用</span></a></li></ol></li></ol>
     </div>
 </div>
 
