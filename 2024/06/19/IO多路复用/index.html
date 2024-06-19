@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            IO多路复用 |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        IO多路复用
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">筑基</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-19 14:58:26</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Wed Jun 19 2024 14:59:23 GMT+0800">2024-06-19 14:59:23</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/C-%E5%9F%BA%E7%A1%80/">C++基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/C-IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">C++ IO多路复用</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.2k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h2 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h2><h3 id="什么是IO多路复用"><a href="#什么是IO多路复用" class="headerlink" title="什么是IO多路复用"></a>什么是IO多路复用</h3><p>IO多路复用是一种同步IO模型，实现一个线程可以监视多个文件描述符；一旦某个文件描述符就绪，就能够通知应用程序做出相应的读写操作；当没有文件描述符就绪时，就会阻塞应用程序，让出cpu。</p>
+<blockquote>
+<p>多路是指网络连接，复用是指同一个线程</p>
+</blockquote>
+<p><strong>同步阻塞IO</strong></p>
+<ol>
+<li><p>服务端采用单线程，当<code>accept</code>一个请求后，在 <code>recv</code> 或 <code>send </code>调用阻塞时，将无法 <code>accept </code>其他请求（必须等上一个请求处理<code>recv</code>或<code> send</code> 完 ）（无法处理并发）</p>
+</li>
+<li><p>服务端采用多线程，当<code>accept</code>一个请求后，开启线程进行<code>recv</code>，可以完成并发处理，但随着请求数增加需要增加系统线程，大量的线程占用很大的内存空间，并且线程切换会带来很大的开销，10000个线程真正发生读写实际的线程数不会超过20%，每次<code>accept</code>都开一个线程也是一种资源浪费。</p>
+</li>
+</ol>
+<p><strong>同步非阻塞IO</strong></p>
+<ol>
+<li>服务器端当 <code>accept</code> 一个请求后，加入 <code>fds</code> 集合，每次轮询一遍<code> fds</code> 集合<code> recv</code> (非阻塞)数据，没有数据则立即返回错误，每次轮询所有<code> fd</code> （包括没有发生读写实际的<code> fd</code>）会很浪费 <code>CPU</code>。</li>
+</ol>
+<p><strong>IO多路复用</strong></p>
+<ol>
+<li>服务器端采用单线程通过<code>select/poll/epoll</code>等系统调用获取<code>fd</code>列表，遍历有事件的<code>fd</code>进行 <code>accept/recv/send</code> ，使其能支持更多的并发连接请求。 整个过程只在调用<code>select、poll、epoll</code>这些调用的时候才会阻塞，<code>accept/recv</code>是不会阻塞。</li>
+</ol>
+<p><strong>select缺点</strong></p>
+<p>select本质上是通过设置或者检查存放fd标志位的数据结构来进行下一步处理。这样所带来的缺点是：</p>
+<ul>
+<li>单个进程所打开的FD是有限制的，通过<code> FD_SETSIZE</code>设置，默认1024 ;</li>
+<li>每次调用 select，都需要把 fd 集合从用户态拷贝到内核态，这个开销在 fd 很多时会很大；</li>
+</ul>
+<blockquote>
+<p>需要维护一个用来存放大量fd的数据结构，这样会使得用户空间和内核空间在传递该结构时复制开销大</p>
+</blockquote>
+<ul>
+<li>对 socket 扫描时是线性扫描，采用轮询的方法，效率较低（高并发）</li>
+</ul>
+<blockquote>
+<p>当套接字比较多的时候，每次<code>select()</code>都要通过遍历<code>FD_SETSIZE</code>个Socket来完成调度,不管哪个Socket是活跃的,都遍历一遍。这会浪费很多CPU时间。如果能给套接字注册某个回调函数，当他们活跃时，自动完成相关操作，那就避免了轮询，这正是<code>epoll</code>与<code>kqueue</code>做的</p>
+</blockquote>
+<p><strong>poll缺点</strong></p>
+<p><strong>它没有最大连接数的限制</strong>，原因是它是基于链表来存储的，但是同样有缺点：</p>
+<ul>
+<li>每次调用<code> poll</code> ，都需要把 <code>fd </code>集合从用户态拷贝到内核态，这个开销在 <code>fd </code>很多时会很大；</li>
+<li>对 <code>socket </code>扫描是线性扫描，采用轮询的方法，效率较低（高并发时）</li>
+</ul>
+<p><strong>epoll的优点</strong></p>
+<ul>
+<li>没有最大并发连接的限制，能打开的FD的上限远大于1024（1G的内存上能监听约10万个端口）；</li>
+<li>效率提升，不是轮询的方式，不会随着FD数目的增加效率下降。只有活跃可用的FD才会调用callback函数；即<code>epoll</code>最大的优点就在于它只管你“活跃”的连接，而跟连接总数无关，因此在实际的网络环境中，<code>epoll</code>的效率就会远远高于<code>select</code>和<code>poll</code>；</li>
+<li>内存拷贝，利用<code>mmap()</code>文件映射内存加速与内核空间的消息传递；即<code>epoll</code>使用<code>mmap</code>减少复制开销。</li>
+</ul>
+<h3 id="epoll-LT-与-ET-模式的区别"><a href="#epoll-LT-与-ET-模式的区别" class="headerlink" title="epoll LT 与 ET 模式的区别"></a><strong>epoll LT 与 ET 模式的区别</strong></h3><p><code>epoll </code>有<code>EPOLLLT</code>和 <code>EPOLLET</code> 两种触发模式，LT 是默认的模式，ET 是 “高速” 模式。</p>
+<ul>
+<li>LT 模式下，只要这个<code>fd</code>还有数据可读，每次 <code>epoll_wait </code>都会返回它的事件，提醒用户程序去操作；</li>
+<li>ET 模式下，它只会提示一次，直到下次再有数据流入之前都不会再提示了，无论 fd 中是否还有数据可读。所以在 ET 模式下，<code>read </code>一个<code>fd</code>的时候一定要把它的 <code>buffer </code>读完，或者遇到 EAGIN 错误。</li>
+</ul>
+<p>epoll使用“事件”的就绪通知方式，通过<code>epoll_ctl</code>注册<code>fd</code>，一旦该<code>fd</code>就绪，内核就会采用类似<code>callback</code>的回调机制来激活该<code>fd</code>，<code>epoll_wait</code>便可以收到通知。</p>
+<h3 id="select-poll-epoll之间的区别"><a href="#select-poll-epoll之间的区别" class="headerlink" title="select&#x2F;poll&#x2F;epoll之间的区别"></a><strong>select&#x2F;poll&#x2F;epoll之间的区别</strong></h3><p><code>select，poll，epoll</code>都是IO多路复用的机制。I&#x2F;O多路复用就通过一种机制，可以监视多个描述符，一旦某个描述符就绪（一般是读就绪或者写就绪），能够通知程序进行相应的读写操作。<strong>但<code>select，poll，epoll</code>本质上都是同步I&#x2F;O，因为他们都需要在读写事件就绪后自己负责进行读写，也就是说这个读写过程是阻塞的</strong>，而异步I&#x2F;O则无需自己负责进行读写，异步I&#x2F;O的实现会负责把数据从内核拷贝到用户空间。</p>
+<p><code>epoll</code>跟<code>select</code>都能提供多路I&#x2F;O复用的解决方案。在现在的Linux内核里有都能够支持，其中<code>epoll</code>是Linux所特有，而select则应该是POSIX所规定，一般操作系统均有实现</p>
+<h3 id="为什么-Redis-中要使用-I-O-多路复用这种技术呢？"><a href="#为什么-Redis-中要使用-I-O-多路复用这种技术呢？" class="headerlink" title="为什么 Redis 中要使用 I&#x2F;O 多路复用这种技术呢？"></a><strong>为什么 Redis 中要使用 I&#x2F;O 多路复用这种技术呢？</strong></h3><p>首先，<code>Redis</code>是跑在单线程中的，所有的操作都是按照顺序线性执行的，但是由于读写操作等待用户输入或输出都是阻塞的，所以<code>I/O</code>操作在一般情况下往往不能直接返回，这会导致某一文件的<code> I/O</code> 阻塞导致整个进程无法对其它客户提供服务，而 <strong>I&#x2F;O 多路复用</strong> 就是为了解决这个问题而出现的。</p>
+<h3 id="epoll为什么会比select-poll快，快在哪些地方"><a href="#epoll为什么会比select-poll快，快在哪些地方" class="headerlink" title="epoll为什么会比select&#x2F;poll快，快在哪些地方?"></a>epoll为什么会比select&#x2F;poll快，快在哪些地方?</h3><p><code>epoll</code> 相比 <code>select</code> 和 <code>poll</code> 在处理大量文件描述符时更高效的原因主要有以下几点：</p>
+<ol>
+<li><strong>事件通知机制</strong>：<ul>
+<li><code>select</code> 和 <code>poll</code> 使用轮询方式来检查每个文件描述符是否就绪，这意味着即使只有少量的文件描述符就绪，也需要遍历整个文件描述符集合。这种方式的时间复杂度是O(n)，n 是文件描述符的数量。</li>
+<li><code>epoll</code> 利用事件通知机制，当文件描述符就绪时，内核会通过回调函数直接通知应用程序，而不需要应用程序自己去轮询。这样可以避免不必要的遍历，提高了效率。</li>
+</ul>
+</li>
+<li><strong>文件描述符集合管理</strong>：<ul>
+<li><code>select</code> 和 <code>poll</code> 需要应用程序不断地维护文件描述符集合，包括添加、删除和修改。这样的操作会带来一定的开销。</li>
+<li><code>epoll</code> 使用单独的系统调用 <code>epoll_ctl()</code> 来添加、删除和修改文件描述符，这些操作都是在内核中进行，不需要应用程序去管理文件描述符集合，减少了额外的开销。</li>
+</ul>
+</li>
+<li><strong>内存拷贝</strong>：<ul>
+<li>在 <code>select</code> 和 <code>poll</code> 中，每次调用系统调用都需要将文件描述符集合从用户空间拷贝到内核空间，而 <code>epoll</code> 使用内存映射（mmap）技术，在用户空间和内核空间共享一块内存，避免了不必要的内存拷贝。</li>
+</ul>
+</li>
+</ol>
+<h3 id="epoll一定比-poll快吗-为什么还有人使用po模型"><a href="#epoll一定比-poll快吗-为什么还有人使用po模型" class="headerlink" title="epoll一定比 poll快吗?为什么还有人使用po模型?"></a>epoll一定比 poll快吗?为什么还有人使用po模型?</h3><ol>
+<li><strong>规模小</strong>：<ul>
+<li>当文件描述符数量较少时，<code>poll</code> 的开销可能更低。<code>epoll</code> 在维护内部数据结构上可能会有一些额外开销，这在规模小的情况下可能会影响性能。</li>
+</ul>
+</li>
+<li><strong>平台兼容性</strong>：<ul>
+<li><code>poll</code> 是 POSIX 标准的一部分，因此在不同的平台上都可以使用，并且具有较好的兼容性。相比之下，<code>epoll</code> 是 Linux 特有的，不具备跨平台性，如果需要在其他操作系统上运行，可能会选择使用 <code>poll</code>。</li>
+</ul>
+</li>
+<li><strong>简单性</strong>：<ul>
+<li>对于某些应用程序而言，<code>poll</code> 的接口可能更简单易用，特别是对于初学者或者快速原型开发而言。<code>epoll</code> 的使用需要更多的了解和掌握，对于一些简单的场景，使用 <code>poll</code> 可能更为方便。</li>
+</ul>
+</li>
+<li><strong>稳定性</strong>：<ul>
+<li>虽然 <code>epoll</code> 在处理大量并发连接时通常更高效，但在某些情况下可能会出现性能问题或者不稳定的情况。在某些情况下，开发人员可能更倾向于使用 <code>poll</code>，因为它可能更为稳定和可靠。</li>
+</ul>
+</li>
+</ol>
+<h3 id="epoll为什么采用红黑树，而不是hash、-b-树存储需要关注的事件"><a href="#epoll为什么采用红黑树，而不是hash、-b-树存储需要关注的事件" class="headerlink" title="epoll为什么采用红黑树，而不是hash、 b+树存储需要关注的事件?"></a>epoll为什么采用红黑树，而不是hash、 b+树存储需要关注的事件?</h3><ol>
+<li><strong>快速查找</strong>：<ul>
+<li>红黑树是一种自平衡的二叉搜索树，其查找、插入和删除的时间复杂度都是 O(log n)，其中 n 是树中节点的数量。这使得在红黑树中快速地查找需要关注的事件成为可能，尤其是当文件描述符数量很大时。<strong>红黑树处理大规模数据效率高</strong></li>
+</ul>
+</li>
+<li><strong>有序性</strong>：<ul>
+<li>红黑树是一种有序树，可以按照节点的键（比如文件描述符的值）进行排序。这种有序性在事件触发时非常有用，可以更容易地确定触发事件的顺序。</li>
+</ul>
+</li>
+<li><strong>动态性</strong>：<ul>
+<li><code>epoll</code> 的设计考虑了文件描述符的动态性，即文件描述符的增加和删除。红黑树的动态性比哈希表和 B+ 树更好，可以方便地进行节点的插入和删除操作，而不需要重新构建整个数据结构。<strong>红黑树容易缩容</strong></li>
+</ul>
+</li>
+<li><strong>内存开销</strong>：<ul>
+<li>相比哈希表和 B+ 树，红黑树的内存开销相对较小。哈希表需要额外的空间来存储哈希值和冲突解决机制，而 B+ 树需要额外的指针和索引节点。红黑树作为一种自平衡树，在保持相对较低的内存开销的同时，能够保持较好的性能。</li>
+</ul>
+</li>
+</ol>
+<h3 id="epoll的底层原理"><a href="#epoll的底层原理" class="headerlink" title="epoll的底层原理"></a>epoll的底层原理</h3><p><code>epoll</code> 是 Linux 下的一种 I&#x2F;O 多路复用机制，用于处理大量并发连接或操作。它通过操作系统内核提供的 <code>epoll</code> 系统调用来管理文件描述符并监视 I&#x2F;O 事件。</p>
+<ol>
+<li><strong>事件驱动模型：</strong> <code>epoll</code> 是基于<strong>事件驱动</strong>的模型。它利用操作系统内核的事件通知机制来通知应用程序发生了哪些 I&#x2F;O 事件，例如套接字可读、套接字可写等。</li>
+<li><strong>注册事件：</strong> 应用程序可以通过 <code>epoll_ctl</code> 系统调用向内核注册需要监视的文件描述符以及对应的事件类型（读、写等）。一旦文件描述符上发生了指定的事件，内核就会通知应用程序。</li>
+<li><strong>等待事件：</strong> 应用程序使用 <code>epoll_wait</code> 系统调用来等待事件的发生。当有文件描述符上发生了注册的事件时，<code>epoll_wait</code> 将返回并通知应用程序。</li>
+<li><strong>高效处理事件：</strong> <code>epoll</code> 的高效性体现在它在等待事件发生时不会阻塞整个进程，而是采用了非阻塞的方式。它通过内核态和用户态之间的数据结构共享，避免了频繁的上下文切换，从而提高了性能。</li>
+<li><strong>可扩展性：</strong> <code>epoll</code> 在设计上考虑了可扩展性，能够有效地处理大量的并发连接或操作。它使用红黑树（Red-Black Tree）和双链表（Doubly Linked List）等数据结构来管理文件描述符，从而减少了对文件描述符数量的限制。</li>
+</ol>
+<h3 id="什么情况下需要I-O多路复用技术"><a href="#什么情况下需要I-O多路复用技术" class="headerlink" title="什么情况下需要I&#x2F;O多路复用技术"></a>什么情况下需要I&#x2F;O多路复用技术</h3><p>传统的 I&#x2F;O 模型中，每个连接或操作都需要一个独立的线程或进程来处理，这会消耗大量的系统资源。而使用 I&#x2F;O 多路复用技术，可以通过一个线程或进程同时监听多个 I&#x2F;O 事件，从而减少了资源的消耗。</p>
+<p><strong>IO多路复用是指使用一个线程来检查多个文件描述符（Socket）的就绪状态</strong>，比如调用select和poll函数，传入多个文件描述符，<strong>如果有一个文件描述符就绪，则返回，否则阻塞直到超时</strong>。</p>
+<p>这样在处理1000个连接时，<strong>只需要1个线程监控就绪状态，对就绪的每个连接开一个线程处理就可以了，这样需要的线程数大大减少，减少了内存开销和上下文切换的CPU开销。</strong></p>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                IO多路复用
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/19/IO多路复用/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-19 14:58</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/C-IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8/">C++ IO多路复用</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/19/%E8%99%9A%E5%87%BD%E6%95%B0/"
+                                   title="虚函数"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">虚函数</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">IO多路复用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFIO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">什么是IO多路复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-LT-%E4%B8%8E-ET-%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">epoll LT 与 ET 模式的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select-poll-epoll%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">select&#x2F;poll&#x2F;epoll之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-Redis-%E4%B8%AD%E8%A6%81%E4%BD%BF%E7%94%A8-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E8%BF%99%E7%A7%8D%E6%8A%80%E6%9C%AF%E5%91%A2%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">为什么 Redis 中要使用 I&#x2F;O 多路复用这种技术呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%AF%94select-poll%E5%BF%AB%EF%BC%8C%E5%BF%AB%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9"><span class="nav-number">1.5.</span> <span class="nav-text">epoll为什么会比select&#x2F;poll快，快在哪些地方?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%80%E5%AE%9A%E6%AF%94-poll%E5%BF%AB%E5%90%97-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E6%9C%89%E4%BA%BA%E4%BD%BF%E7%94%A8po%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">epoll一定比 poll快吗?为什么还有人使用po模型?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%87%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AFhash%E3%80%81-b-%E6%A0%91%E5%AD%98%E5%82%A8%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E7%9A%84%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">epoll为什么采用红黑树，而不是hash、 b+树存储需要关注的事件?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">1.8.</span> <span class="nav-text">epoll的底层原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81I-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="nav-number">1.9.</span> <span class="nav-text">什么情况下需要I&#x2F;O多路复用技术</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">IO多路复用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFIO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">1.1.</span> <span class="nav-text">什么是IO多路复用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-LT-%E4%B8%8E-ET-%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.</span> <span class="nav-text">epoll LT 与 ET 模式的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select-poll-epoll%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">select&#x2F;poll&#x2F;epoll之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-Redis-%E4%B8%AD%E8%A6%81%E4%BD%BF%E7%94%A8-I-O-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E8%BF%99%E7%A7%8D%E6%8A%80%E6%9C%AF%E5%91%A2%EF%BC%9F"><span class="nav-number">1.4.</span> <span class="nav-text">为什么 Redis 中要使用 I&#x2F;O 多路复用这种技术呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%AF%94select-poll%E5%BF%AB%EF%BC%8C%E5%BF%AB%E5%9C%A8%E5%93%AA%E4%BA%9B%E5%9C%B0%E6%96%B9"><span class="nav-number">1.5.</span> <span class="nav-text">epoll为什么会比select&#x2F;poll快，快在哪些地方?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%80%E5%AE%9A%E6%AF%94-poll%E5%BF%AB%E5%90%97-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E6%9C%89%E4%BA%BA%E4%BD%BF%E7%94%A8po%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.6.</span> <span class="nav-text">epoll一定比 poll快吗?为什么还有人使用po模型?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E4%B8%BA%E4%BB%80%E4%B9%88%E9%87%87%E7%94%A8%E7%BA%A2%E9%BB%91%E6%A0%91%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AFhash%E3%80%81-b-%E6%A0%91%E5%AD%98%E5%82%A8%E9%9C%80%E8%A6%81%E5%85%B3%E6%B3%A8%E7%9A%84%E4%BA%8B%E4%BB%B6"><span class="nav-number">1.7.</span> <span class="nav-text">epoll为什么采用红黑树，而不是hash、 b+树存储需要关注的事件?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E7%9A%84%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">1.8.</span> <span class="nav-text">epoll的底层原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E9%9C%80%E8%A6%81I-O%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E6%8A%80%E6%9C%AF"><span class="nav-number">1.9.</span> <span class="nav-text">什么情况下需要I&#x2F;O多路复用技术</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
