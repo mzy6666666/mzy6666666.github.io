@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Mzy">
+    
+    <title>
+        
+            accept（EMFILE错误）文件描述符用尽了怎么办 |
+        
+        Mzy&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/author.svg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.xml"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Mzy's Blog","author":"Mzy","avatar":"/images/author.svg","logo":"/images/author.svg","favicon":"/images/author.svg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories","photos":"/photos"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"Keep writing and Keep loving.","hitokoto":true},"social_contact":{"enable":true,"links":{"github":"https://github.com/mzy0727","weixin":"https://fontawesome.com/icons/weixin?f=brands&s=solid","qq":"https://fontawesome.com/icons/qq?f=brands&s=solid","weibo":"Weibo","zhihu":"zhihu","twitter":"twitter","x":"X","facebook":"facebook","email":"1795498057@qq.com"}},"scroll":{"progress_bar":false,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":["炼气","筑基","金丹","元婴","化神"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":"fakse","img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"default"},"highlight_theme":"default"},"toc":{"enable":true,"number":true,"expand_all":false,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.21"},"waline":{"server_url":null,"reaction":false,"version":2},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":false,"icp":{"enable":false,"record_code":null,"url":"https://beian.miit.gov.cn"},"site_deploy":{"enable":false,"provider":"github","url":null},"shields_style":{"enable":false,"custom":[{"link_url":null,"img_url":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.1.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/author.svg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Mzy&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                
+                                HOME
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/tags"
+                            >
+                                
+                                TAGS
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/categories"
+                            >
+                                
+                                CATEGORIES
+                            </a>
+                        </li>
+                    
+                        
+                        <li class="menu-item">
+                            <a class=""
+                               href="/photos"
+                            >
+                                
+                                PHOTOS
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/"
+                    >HOME</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives"
+                    >ARCHIVES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/tags"
+                    >TAGS</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/categories"
+                    >CATEGORIES</a>
+                </li>
+            
+                
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/photos"
+                    >PHOTOS</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        accept（EMFILE错误）文件描述符用尽了怎么办
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/author.svg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Mzy</span>
+                                
+                                    <span class="author-badge">筑基</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-27 14:27:52</span>
+            </span>
+
+            <span class="meta-info-item post-update-date">
+                <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                <span class="datetime" data-updated="Thu Jun 27 2024 16:12:08 GMT+0800">2024-06-27 16:12:08</span>
+            </span>
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/C-%E5%9F%BA%E7%A1%80/">C++基础</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/C/">C++</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.7k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>6 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body">
+                    
+
+                    <h1 id="accept-（EMFILE错误）文件描述符用尽解决方案"><a href="#accept-（EMFILE错误）文件描述符用尽解决方案" class="headerlink" title="accept （EMFILE错误）文件描述符用尽解决方案"></a>accept （EMFILE错误）文件描述符用尽解决方案</h1><p>通常情况下，服务端调用 accept 函数会返回一个新的文件描述符，用于和客户端之间的数据传输</p>
+<p>在服务器的开发中，有时会遇到这种情况：当调用 accept 函数接受客户端连接，函数返回失败，对应的错误码是<code> EMFILE</code>，它表示当前进程打开的文件描述符已达上限，此时，服务器不能再接受客户端连接</p>
+<p>当遇到上述问题，怎么合理的处理呢，下面就来分析一下</p>
+<h2 id="建立连接的流程"><a href="#建立连接的流程" class="headerlink" title="建立连接的流程"></a>建立连接的流程</h2><p>先简单回顾下客户端和服务器建立连接的流程，具体的如下图所示：</p>
+<p><img   src="https://mark.cuckooing.cn/pics/pic_ace04886.png"  alt="pic_ace04886.png"></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> 客户端发起 SYN 请求</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> 服务器收到客户端的 SYN 请求后，内核把连接放入半连接队列，同时给客户端返回一个 SYN + ACK</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> 客户端向服务器返回一个确认的 ACK, 服务器收到本次 ACK 之后，三次握手完成，同时，内核把连接从半连接队列中移除，创建新完全连接，加入到全连接队列中</span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 应用层调用 accept 函数从全连接队列中取出连接</span><br></pre></td></tr></table></figure>
+
+<p>上面的第 1、第 2、第 3 步是 TCP 的三次握手，它是由内核中TCP协议完成的, 第 4 步是应用层调用 accept 接口</p>
+<h2 id="在-epoll-中的问题"><a href="#在-epoll-中的问题" class="headerlink" title="在 epoll 中的问题"></a>在 epoll 中的问题</h2><p><code>epoll </code>是 Linux中IO多路复用模型，在服务器的开发中有广泛的应用，下面就以<code>epoll</code>为例来详细说明</p>
+<p>服务器端创建侦听文件描述符<code>listenfd</code>之后, 向<code>epoll</code>注册读事件</p>
+<p>当 <code>epoll </code>检测到<code> listenfd</code> 上有读事件发生，会立即通知应用层，应用层调用<code>accept</code>接受新连接，而此时进程打开的文件描述符数量已经达到上限了，所以每次 <code>accept </code>都是失败的</p>
+<p>这里会出现以下几个问题</p>
+<ol>
+<li>由于 每次<code> accept</code> 都失败了，相当于<code>listenfd</code>上的可读事件没有处理，<code>epoll</code> 会不停的触发 <code>listenfd </code>上的可读事件，应用层也就会不停的调用<code> accept</code>，然后又出现 <code>accept </code>调用失败，如此这般不停的执行无效的循环，程序就陷入了<strong>busy loop</strong>中。CPU占用率会达到100%，影响了服务器的性能。</li>
+<li>上面提到服务器在不停的执行无效的循环， 将会引发另一个问题，如果此时有新客户端连接到来，建立连接的过程会很慢</li>
+</ol>
+<p>前面说的<code>epoll</code>默认是使用了水平触发模式，如果使用边沿触发模式会出现什么问题呢？</p>
+<blockquote>
+<p>边沿触发模式下，<code>listenfd</code>从无读事件状态到有读事件状态时，才会通知到应用层，在应用层处理完<code>listenfd</code>上所有的读事件之前，<code>epoll </code>不会再通知应用层</p>
+<p>也就是说，应用层收到 <code>listenfd </code>上读事件通知之后，需要把<code>listenfd</code>上所有的读事件全部处理完，下次<code>listenfd</code>上再有读事件时，才会通知应用层</p>
+<p>回到 <code>accept </code>的问题上，在边沿触发模式下，当<code>epoll</code>通知应用层 <code>listenfd </code>上有可读事件时，应用层调用<code> accept</code>， 由于此时进程打开的文件描述符数量已经达到上限了，所以 <code>accept </code>调用失败，也即<code>listenfd</code>上的可读事件还没有处理，在应用层处理完 <code>listenfd</code> 上可读事件之前，<code>epoll </code>不会再通知应用层<code> listenfd</code> 上有可读事件</p>
+<p>如果在应用层处理完 <code>listenfd </code>上可读事件之前，有新的客户端连接到来，这个时候<code>epoll</code>是不会通知应用层<code>listenfd </code>上有可读事件，这会导致一个严重的问题：<code>accept </code>只要出现了<code> EMFILE</code>的错误码，就再也无法接受客户端的连接了</p>
+</blockquote>
+<p>所以，当出现 <code>EMFILE </code>时，不管使用<code>epoll</code> 的水平触发模式还是边沿触发模式都会存在问题</p>
+<h2 id="如何解决"><a href="#如何解决" class="headerlink" title="如何解决"></a>如何解决</h2><ol>
+<li><code>EMFILE </code>表示进程打开的文件描述符数量达到上限了，可以把这个值调大些，但这治标不治本</li>
+</ol>
+<p>本来系统设置文件描述符数量上限是为了限制进程对系统资源的过度占用，况且，这个值调整到多大合适呢，总不能无限大吧，所以调整上限值的方式不是最合适的方式</p>
+<p>accept 成功时会返回一个新的文件描述符，如果此时进程打开的文件描述符已经达到上限了，就会返回失败</p>
+<ol start="2">
+<li>死等。鸵鸟算法（传说中鸵鸟看到危险就把头埋在地底下。当你对某一件事情没有一个很好的解决方法时，那就忽略它，就像鸵鸟面对危险时会把它深埋在沙砾中，装作看不到。这样的算法称为“鸵鸟算法“。鸵鸟算法，是平衡性能和复杂性而选择的一种方法。）</li>
+<li>退出程序。似乎小题大做，为这种暂时的错误而中断现有的服务似乎不值得</li>
+<li>改用边沿触发，但是之后再也接收不到新连接</li>
+<li>准备一个空闲的文件描述符。如遇到这种情况，先关闭这个空闲的文件，获得了一个文件描述符的名额；再<code>accept</code>拿到新<code>socket</code>连接的描述符；随后立刻关闭<code>close</code>它，这样就优雅的断开了客户端连接；最后重新打开一个空闲的文件，把“坑”占住，已被再次出现这种情况时使用。这总方式具体的处理步骤如下：</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、事先准备一个空闲的文件描述符 idlefd，相当于先占一个<span class="string">&quot;坑&quot;</span>位</span><br><span class="line"></span><br><span class="line"><span class="number">2</span>、调用 close 关闭 idlefd，关闭之后，进程就会获得一个文件描述符名额</span><br><span class="line"></span><br><span class="line"><span class="number">3</span>、再次调用 accept 函数, 此时就会返回新的文件描述符 clientfd, 立刻调用 close 函数，关闭 clientfd</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>、重新创建空闲文件描述符 idlefd，重新占领 <span class="string">&quot;坑&quot;</span> 位，再出现这种情况的时候又可以使用</span><br></pre></td></tr></table></figure>
+
+<p>下面是处理 <code>EMFILE</code> 的伪代码:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> ret = <span class="built_in">accept</span>( listenfd, (<span class="keyword">struct</span> sockaddr*)&amp;addr, <span class="built_in">sizeof</span>(addr) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="number">-1</span> == ret)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">if</span> ( errno == EMFILE )</span><br><span class="line">  &#123;</span><br><span class="line">	 <span class="comment">//关闭空闲文件描述符，释放 &quot;坑&quot;位</span></span><br><span class="line">     <span class="built_in">close</span>(idlefd);</span><br><span class="line">	 </span><br><span class="line">	 <span class="comment">//接受 clientfd</span></span><br><span class="line">	 clientfd = <span class="built_in">accept</span>( listenfd, <span class="literal">nullptr</span>, <span class="literal">nullptr</span>);</span><br><span class="line">	 <span class="comment">//关闭 clientfd，防止一直触发 listenfd 上的可读事件</span></span><br><span class="line">	 <span class="built_in">close</span>(clientfd);</span><br><span class="line">	 </span><br><span class="line">	 <span class="comment">//重新占领 &quot;坑&quot;位</span></span><br><span class="line">	 idlefd = ::<span class="built_in">open</span>(<span class="string">&quot;/dev/null&quot;</span>, O_RDONLY | O_CLOEXEC);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li><code>file descriptor</code>是<code>hard limit</code>，我们可以自己设一个稍微小一点的<code>soft limit</code>，如果超过<code>soft limit </code>就主动关闭新连接，这样就避免触及<code>file descriptor耗尽</code>这种边界条件。比方说当前进程的<code>max file descriptor</code>是1024，那么我们可以在连接数打到1000的时候进入“拒绝新连接”的状态</li>
+</ol>
+
+                </div>
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                accept（EMFILE错误）文件描述符用尽了怎么办
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/27/（EMFILE错误）文件描述符用尽了怎么办/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Mzy</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-27 14:27</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/C/">C++</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/21/C-%E5%9F%BA%E7%A1%80%E9%9D%A2%E8%AF%95%E9%A2%98%E6%9D%82%E9%A1%B9/"
+                                   title="C++基础面试题杂项"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">C++基础面试题杂项</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#accept-%EF%BC%88EMFILE%E9%94%99%E8%AF%AF%EF%BC%89%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%A8%E5%B0%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">accept （EMFILE错误）文件描述符用尽解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">建立连接的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-epoll-%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">在 epoll 中的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="nav-number">1.3.</span> <span class="nav-text">如何解决</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="border-box website-info-box default">
+        
+            <div class="copyright-info info-item default">
+                &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2024
+                
+                    &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Mzy</a>
+                
+            </div>
+
+            <div class="theme-info info-item default">
+                Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+            </div>
+
+            
+
+            
+        
+
+        <div class="count-item info-item default">
+            
+
+            
+                <span class="count-box border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-box border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="tools-list border-box">
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-toggle-theme-mode flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#accept-%EF%BC%88EMFILE%E9%94%99%E8%AF%AF%EF%BC%89%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%E7%94%A8%E5%B0%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.</span> <span class="nav-text">accept （EMFILE错误）文件描述符用尽解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">建立连接的流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-epoll-%E4%B8%AD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">在 epoll 中的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3"><span class="nav-number">1.3.</span> <span class="nav-text">如何解决</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+<!-- common -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local-search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="">
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+</body>
+</html>
